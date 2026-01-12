@@ -7,7 +7,7 @@ on:
       src_path:
         type: string
         description: Path to the source code
-        default: "${{ github.event.repository.name }}"
+        default: ${{ github.event.repository.name }}
         required: false
     outputs:
       modules_changed:
@@ -29,7 +29,6 @@ jobs:
     - name: Get Modules Changed
       id: get_modules_changed
       run: |
-        set +x
         modules_changed='[]'
 
         if [[ "${{ inputs.src_path }}" == "${{ github.event.repository.name }}" ]]; then
@@ -43,4 +42,3 @@ jobs:
             | jq -R . | jq -s .)
         fi
         echo "modules_changed=$modules_changed" >> $GITHUB_OUTPUT
-        echo $modules_changed

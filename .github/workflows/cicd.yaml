@@ -17,6 +17,6 @@ jobs:
   CICD:
     uses: ./.github/workflows/rw-composite-cicd.yaml
     with:
-      src_path: 'apps'
+      src_path: 'src'
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
