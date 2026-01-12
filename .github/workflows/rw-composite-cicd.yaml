@@ -1,0 +1,28 @@
+---
+name: COMPOSITE_CICD
+
+on:
+  workflow_call:
+    inputs:
+      src_path:
+        type: string
+        description: Path to the source code
+        required: false
+    secrets:
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  COMPOSITE_CI:
+    uses: ./.github/workflows/rw-composite-ci.yaml
+    with:
+      src_path: ${{ inputs.src_path }}
+    secrets:
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  CD:
+    needs: [COMPOSITE_CI]
+    uses: ./.github/workflows/rw-base-cd.yaml
+    with:
+      modules_changed: ${{ needs.COMPOSITE_CI.outputs.modules_changed }}
+      tag: ${{ needs.COMPOSITE_CI.outputs.tag }}

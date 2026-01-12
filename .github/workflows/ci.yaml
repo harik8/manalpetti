@@ -15,15 +15,9 @@ permissions:
   contents: read  # This is required for actions/checkout
 
 jobs:
-  INIT:
-    uses: ./.github/workflows/rw-init.yaml
-    with:
-      paths_include: 'images'
-
   CI:
-    needs: INIT
-    uses: ./.github/workflows/rw-ci.yaml
+    uses: ./.github/workflows/rw-composite-ci.yaml
     with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
+      src_path: 'images'
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

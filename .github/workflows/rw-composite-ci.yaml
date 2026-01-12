@@ -1,0 +1,34 @@
+---
+name: COMPOSITE_CI
+
+on:
+  workflow_call:
+    inputs:
+      src_path:
+        type: string
+        description: Path to the source code
+        required: false
+    outputs:
+      modules_changed:
+        description: List of modules changed from given source path by last commit. 
+        value: ${{ jobs.INIT.outputs.modules_changed }}
+      tag:
+        description: List of modules changed from given source path by last commit. 
+        value: ${{ jobs.CI.outputs.tag }}
+    secrets:
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  INIT:
+    uses: ./.github/workflows/rw-base-init.yaml
+    with:
+      src_path: ${{ inputs.src_path }}
+
+  CI:
+    needs: INIT
+    uses: ./.github/workflows/rw-base-ci.yaml
+    with:
+      modules_changed: ${{ needs.INIT.outputs.modules_changed }}
+    secrets:
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

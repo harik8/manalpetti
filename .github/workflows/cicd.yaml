@@ -13,24 +13,9 @@ permissions:
   contents: read  # This is required for actions/checkout
 
 jobs:
-  INIT:
-    uses: ./.github/workflows/rw-init.yaml
+  CICD:
+    uses: ./.github/workflows/rw-composite-cicd.yaml
     with:
-      paths_include: 'apps'
-
-  CI:
-    needs: INIT
-    uses: ./.github/workflows/rw-ci.yaml
-    with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
-    secrets:
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-  CD:
-    needs: [INIT, CI]
-    uses: ./.github/workflows/rw-cd.yaml
-    with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
-      tag: ${{ needs.CI.outputs.tag }}
+      src_path: 'apps'
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

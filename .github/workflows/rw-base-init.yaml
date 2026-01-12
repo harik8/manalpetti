@@ -1,0 +1,45 @@
+name: BASE_INIT
+
+on:
+  workflow_call:
+    inputs:
+      src_path:
+        type: string
+        description: Path to the source code
+        default: '["${{ github.event.repository.name }}"]'
+        required: false
+    outputs:
+      modules_changed:
+        description: List of modules changed from given source path by last commit. 
+        value: ${{ jobs.INIT.outputs.modules_changed }}
+
+jobs:
+  INIT:
+    runs-on: ubuntu-slim
+    outputs:
+      modules_changed:  ${{ steps.get_modules_changed.outputs.modules_changed }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Get Modules Changed
+      id: get_modules_changed
+      run: |
+        set +x
+        modules_changed='[]'
+
+        if [ ${{ inputs.src_path }} == ${{ github.event.repository.name }} ]; then
+          modules_changed=${{ github.event.repository.name }}
+        else
+          modules_changed=$(git diff HEAD HEAD~ --name-only \
+            | grep '/' \
+            | cut -d'/' -f1-2 \
+            | grep -E "${{ inputs.src_path }}" \
+            | sort -u \
+            | jq -R . | jq -s .)
+        fi
+
+        echo "$modules_changed" >> $GITHUB_OUTPUT

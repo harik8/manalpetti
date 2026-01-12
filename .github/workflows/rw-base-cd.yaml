@@ -1,11 +1,11 @@
-name: CD
+name: BASE-CD
 
 on:
   workflow_call:
     inputs:
-      paths_modified:
+      modules_changed:
         type: string
-        description: List of modified apps
+        description: List of modules changed from given source path by last commit. 
       tag:
         type: string
         description: Docker image tag
@@ -21,7 +21,7 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       matrix:
-        apps: ${{ fromJson(inputs.paths_modified) }}
+        apps: ${{ fromJson(inputs.modules_changed) }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
