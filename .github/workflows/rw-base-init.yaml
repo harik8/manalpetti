@@ -34,7 +34,9 @@ jobs:
 
         if [ "${{ inputs.src_path }}" = "${{ github.event.repository.name }}" ]; then
           modules_changed='["${{ github.event.repository.name }}"]'
+          echo "If condition met"
         else
+          echo "Else condition met"
           modules_changed=$(git diff HEAD HEAD~ --name-only \
             | grep '/' \
             | cut -d'/' -f1-2 \
