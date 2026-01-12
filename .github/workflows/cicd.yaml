@@ -8,6 +8,8 @@ on:
   pull_request:
     branches:
     - main
+    paths:
+      - src/**
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -15,7 +17,7 @@ permissions:
 
 jobs:
   CICD:
-    uses: ./.github/workflows/rw-composite-cicd.yaml
+    uses: ./.github/workflows/composite/rw-composite-cicd.yaml
     with:
       src_path: 'src'
     secrets:

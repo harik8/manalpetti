@@ -9,9 +9,6 @@ on:
         description: Path to the source code
         default: ${{ github.event.repository.name }}
         required: false
-    secrets:
-      DOCKER_PASSWORD:
-        required: true
 
 jobs:
   COMPOSITE_CI:
@@ -23,7 +20,7 @@ jobs:
 
   CD:
     needs: [COMPOSITE_CI]
-    uses: ./.github/workflows/rw-base-cd.yaml
+    uses: ./.github/workflows/rw-helm.yaml
     with:
       modules_changed: ${{ needs.COMPOSITE_CI.outputs.modules_changed }}
       tag: ${{ needs.COMPOSITE_CI.outputs.tag }}

@@ -22,13 +22,13 @@ on:
 
 jobs:
   INIT:
-    uses: ./.github/workflows/rw-base-init.yaml
+    uses: ./.github/workflows/base/rw-init.yaml
     with:
       src_path: ${{ inputs.src_path }}
 
   CI:
     needs: INIT
-    uses: ./.github/workflows/rw-base-ci.yaml
+    uses: ./.github/workflows/base/rw-buildx.yaml
     with:
       modules_changed: ${{ needs.INIT.outputs.modules_changed }}
     secrets:
