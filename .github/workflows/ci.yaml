@@ -9,7 +9,7 @@ on:
     branches:
     - main
     paths:
-      - images/**
+      - builds/**
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -19,6 +19,6 @@ jobs:
   CI:
     uses: ./.github/workflows/rw-composite-ci.yaml
     with:
-      src_path: 'images'
+      src_path: 'builds'
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
