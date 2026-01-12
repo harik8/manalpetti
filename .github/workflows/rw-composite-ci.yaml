@@ -7,6 +7,7 @@ on:
       src_path:
         type: string
         description: Path to the source code
+        default: '["${{ github.event.repository.name }}"]'
         required: false
     outputs:
       modules_changed:
