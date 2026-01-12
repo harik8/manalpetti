@@ -1,4 +1,5 @@
-name: BASE-CI
+---
+name: BASE_CI
 
 on:
   workflow_call:

@@ -1,4 +1,5 @@
-name: BASE-CD
+---
+name: BASE_CD
 
 on:
   workflow_call:
