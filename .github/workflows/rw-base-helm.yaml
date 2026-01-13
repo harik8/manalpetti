@@ -15,9 +15,6 @@ on:
         type: string
         description: Docker image tag
         required: true
-    secrets:
-      DOCKER_PASSWORD:
-        required: true
         
 jobs:
   HELM:
