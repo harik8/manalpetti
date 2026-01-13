@@ -16,7 +16,7 @@ jobs:
   INIT:
     uses: ./.github/workflows/rw-init.yaml
     with:
-      modules_changed: 'apps'
+      src_path: 'apps'
 
   CI:
     needs: INIT
