@@ -20,5 +20,3 @@ jobs:
     uses: ./.github/workflows/rw-composite-helm.yaml
     with:
       src_path: 'src'
-    secrets:
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
