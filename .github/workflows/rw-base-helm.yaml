@@ -1,12 +1,16 @@
 ---
-name: BASE_CD
+name: BASE_HELM
 
 on:
   workflow_call:
     inputs:
       modules_changed:
         type: string
-        description: List of modules changed from given source path by last commit. 
+        description: List of modules changed from given source path by last commit.
+      stage:
+        type: string
+        description: The deployment stage
+        default: sandbox 
       tag:
         type: string
         description: Docker image tag
@@ -16,7 +20,7 @@ on:
         required: true
         
 jobs:
-  CD:
+  HELM:
     runs-on: self-hosted
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
@@ -51,5 +55,5 @@ jobs:
           --namespace ${{ steps.set_app_name.outputs.app_name }} \
           --set image.repository=${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }} \
           --set image.tag=${{ inputs.tag }} \
-          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/sandbox/values.yaml \
+          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/${{ inputs.stage }}/values.yaml \
           ${{ steps.set_app_name.outputs.app_name }} .helm-tmpl

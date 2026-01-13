@@ -1,5 +1,5 @@
 ---
-name: COMPOSITE_CI
+name: COMPOSITE_BUILDX
 
 on:
   workflow_call:
@@ -12,23 +12,23 @@ on:
     outputs:
       modules_changed:
         description: List of modules changed from given source path by last commit. 
-        value: ${{ jobs.INIT.outputs.modules_changed }}
+        value: ${{ jobs.B_INIT.outputs.modules_changed }}
       tag:
         description: List of modules changed from given source path by last commit. 
-        value: ${{ jobs.CI.outputs.tag }}
+        value: ${{ jobs.B_BUILDX.outputs.tag }}
     secrets:
       DOCKER_PASSWORD:
         required: true
 
 jobs:
-  INIT:
-    uses: ./.github/workflows/base/rw-init.yaml
+  B_INIT:
+    uses: ./.github/workflows/rw-base-init.yaml
     with:
       src_path: ${{ inputs.src_path }}
 
-  CI:
+  B_BUILDX:
     needs: INIT
-    uses: ./.github/workflows/base/rw-buildx.yaml
+    uses: ./.github/workflows/rw-base-buildx.yaml
     with:
       modules_changed: ${{ needs.INIT.outputs.modules_changed }}
     secrets:

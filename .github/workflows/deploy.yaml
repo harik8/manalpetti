@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   CICD:
-    uses: ./.github/workflows/composite/rw-composite-cicd.yaml
+    uses: ./.github/workflows/composite/rw-composite-helm.yaml
     with:
       src_path: 'src'
     secrets:
