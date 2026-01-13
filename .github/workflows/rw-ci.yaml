@@ -24,7 +24,7 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
-    if: ${{ inputs.modules_changed != '[]' || inputs.modules_changed != '' }}
+    if: ${{ inputs.modules_changed != '[]' }}
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
     strategy:
