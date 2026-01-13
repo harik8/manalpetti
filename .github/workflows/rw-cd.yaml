@@ -9,6 +9,7 @@ on:
       stage:
         type: string
         description: Stage to deploy
+        default: sandbox
       tag:
         type: string
         description: Docker image tag

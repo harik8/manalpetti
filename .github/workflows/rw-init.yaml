@@ -6,6 +6,7 @@ on:
       src_path:
         type: string
         description: Source code path
+        default: '["${{ github.event.repository.name }}"]'
         required: false
     outputs:
       modules_changed:
@@ -16,7 +17,7 @@ jobs:
   INIT:
     runs-on: ubuntu-slim
     outputs:
-      modules_changed:  ${{ steps.paths_modified.outputs.get_modules_changed }}
+      modules_changed:  ${{ steps.get_modules_changed.outputs.modules_changed }}
 
     steps:
     - name: Checkout repository
@@ -28,7 +29,7 @@ jobs:
       id: get_modules_changed
       run: |
         set +x
-        
+
         modules_changed=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
           | cut -d'/' -f1-2 \
