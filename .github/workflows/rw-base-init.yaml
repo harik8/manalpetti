@@ -42,3 +42,4 @@ jobs:
             | jq -R . | jq -s .)
         fi
         echo "modules_changed=$modules_changed" >> $GITHUB_OUTPUT
+        echo $modules_changed

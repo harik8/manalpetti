@@ -1,5 +1,5 @@
 ---
-name: CICD
+name: DEPLOY
 
 on:
   push:
@@ -16,7 +16,7 @@ permissions:
   contents: read  # This is required for actions/checkout
 
 jobs:
-  CICD:
+  DEPLOY:
     uses: ./.github/workflows/rw-composite-helm.yaml
     with:
       src_path: 'src'
