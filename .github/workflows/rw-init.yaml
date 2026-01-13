@@ -28,6 +28,7 @@ jobs:
       id: get_modules_changed
       run: |
         set +x
+        
         modules_changed=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
           | cut -d'/' -f1-2 \

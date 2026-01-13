@@ -53,5 +53,5 @@ jobs:
           --namespace ${{ steps.set_app_name.outputs.app_name }} \
           --set image.repository=${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }} \
           --set image.tag=${{ inputs.tag }} \
-          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/${{ input.stage }}/values.yaml \
+          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/${{ inputs.stage }}/values.yaml \
           ${{ steps.set_app_name.outputs.app_name }} .helm-tmpl
