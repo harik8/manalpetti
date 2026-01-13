@@ -34,12 +34,12 @@ jobs:
         if [[ "${{ inputs.src_path }}" == "${{ github.event.repository.name }}" ]]; then
           modules_changed='["${{ github.event.repository.name }}"]'
         else
-          modules_changed='$(git diff HEAD HEAD~ --name-only \
+          modules_changed=\'$(git diff HEAD HEAD~ --name-only \
             | grep '/' \
             | cut -d'/' -f1-2 \
             | grep -E "${{ inputs.src_path }}" \
             | sort -u \
-            | jq -R . | jq -s .)'
+            | jq -R . | jq -s .)\'
         fi
         echo "modules_changed=$modules_changed" >> $GITHUB_OUTPUT
         echo $modules_changed
