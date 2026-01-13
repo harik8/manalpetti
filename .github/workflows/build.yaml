@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   CI:
-    uses: ./.github/workflows/composite/rw-composite-buildx.yaml
+    uses: ./.github/workflows/rw-composite-buildx.yaml
     with:
       src_path: 'builds'
     secrets:
