@@ -27,7 +27,7 @@ jobs:
       src_path: ${{ inputs.src_path }}
 
   B_BUILDX:
-    needs: INIT
+    needs: B_INIT
     uses: ./.github/workflows/rw-base-buildx.yaml
     with:
       modules_changed: ${{ needs.INIT.outputs.modules_changed }}
