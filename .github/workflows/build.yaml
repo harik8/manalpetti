@@ -1,4 +1,5 @@
-name: CI
+---
+name: RELEASE
 
 on:
   push:
@@ -8,22 +9,16 @@ on:
     branches:
     - main
     paths:
-      - images/**
+      - builds/**
 
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
 
 jobs:
-  INIT:
-    uses: ./.github/workflows/rw-init.yaml
+  BUILD:
+    uses: ./.github/workflows/rw-composite-buildx.yaml
     with:
-      paths_include: 'images'
-
-  CI:
-    needs: INIT
-    uses: ./.github/workflows/rw-ci.yaml
-    with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
+      src_path: 'builds'
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

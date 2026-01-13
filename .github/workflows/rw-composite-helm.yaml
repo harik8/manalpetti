@@ -1,0 +1,26 @@
+---
+name: COMPOSITE_HELM
+
+on:
+  workflow_call:
+    inputs:
+      src_path:
+        type: string
+        description: Path to the source code
+        default: ${{ github.event.repository.name }}
+        required: false
+
+jobs:
+  C_BUILDX:
+    uses: ./.github/workflows/rw-composite-buildx.yaml
+    with:
+      src_path: ${{ inputs.src_path }}
+    secrets:
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  B_HELM:
+    needs: [C_BUILDX]
+    uses: ./.github/workflows/rw-base-helm.yaml
+    with:
+      modules_changed: ${{ needs.C_BUILDX.outputs.modules_changed }}
+      tag: ${{ needs.C_BUILDX.outputs.tag }}

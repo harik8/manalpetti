@@ -1,4 +1,5 @@
-name: CI
+---
+name: BASE_BUILDX
 
 on:
   workflow_call:
@@ -8,28 +9,27 @@ on:
         description: List of build args for Docker build
         default: ""
         required: false
-      paths_modified:
+      modules_changed:
         type: string
-        description: List of modified apps
-        default: '["${{ github.event.repository.name }}"]'
-        required: false
+        description: List of modules changed from given source path by last commit.
+        required: true
     outputs:
       tag:
         description: Docker image tag
-        value: ${{ jobs.CI.outputs.tag }}
+        value: ${{ jobs.BUILDX.outputs.tag }}
     secrets:
       DOCKER_PASSWORD:
         required: true
         
 jobs:
-  CI:
+  BUILDX:
     runs-on: ubuntu-latest
-    if: ${{ inputs.paths_modified != '[]' }}
+    if: ${{ inputs.modules_changed != '' }}
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
     strategy:
       matrix:
-        apps: ${{ fromJson(inputs.paths_modified) }}
+        apps: ${{ fromJson(inputs.modules_changed) }}
 
     steps:
     - name: Checkout repository
