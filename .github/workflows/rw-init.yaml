@@ -3,20 +3,20 @@ name: INIT
 on:
   workflow_call:
     inputs:
-      paths_include:
+      src_path:
         type: string
-        description: List of folders to consider for modification
+        description: Source code path
         required: false
     outputs:
-      paths_modified:
-        description: List of modified apps
-        value: ${{ jobs.INIT.outputs.paths_modified }}
+      modules_changed:
+        description: List of modules changed from given source path by last commit
+        value: ${{ jobs.INIT.outputs.modules_changed }}
 
 jobs:
   INIT:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     outputs:
-      paths_modified:  ${{ steps.paths_modified.outputs.paths_modified }}
+      modules_changed:  ${{ steps.paths_modified.outputs.get_modules_changed }}
 
     steps:
     - name: Checkout repository
@@ -24,18 +24,18 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Paths Modified
-      id: paths_modified
+    - name: Get Modules Changed
+      id: get_modules_changed
       run: |
         set +x
-        paths_modified=$(git diff HEAD HEAD~ --name-only \
+        modules_changed=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
           | cut -d'/' -f1-2 \
-          | grep -E "${{ inputs.paths_include }}" \
+          | grep -E "${{ inputs.src_path }}" \
           | sort -u \
           | jq -R . | jq -s .)
-        echo $paths_modified
+        echo $modules_changed
 
-        echo "paths_modified<<EOF" >> $GITHUB_OUTPUT
-        echo "$paths_modified" >> $GITHUB_OUTPUT
+        echo "modules_changed<<EOF" >> $GITHUB_OUTPUT
+        echo "$modules_changed" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT

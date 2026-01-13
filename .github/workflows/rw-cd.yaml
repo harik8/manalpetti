@@ -3,9 +3,12 @@ name: CD
 on:
   workflow_call:
     inputs:
-      paths_modified:
+      modules_changed:
         type: string
-        description: List of modified apps
+        description: List of modules changed from given source path by last commit
+      stage:
+        type: string
+        description: Stage to deploy
       tag:
         type: string
         description: Docker image tag
@@ -21,7 +24,7 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       matrix:
-        apps: ${{ fromJson(inputs.paths_modified) }}
+        apps: ${{ fromJson(inputs.modules_changed) }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
@@ -50,5 +53,5 @@ jobs:
           --namespace ${{ steps.set_app_name.outputs.app_name }} \
           --set image.repository=${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }} \
           --set image.tag=${{ inputs.tag }} \
-          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/sandbox/values.yaml \
+          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/${{ input.stage }}/values.yaml \
           ${{ steps.set_app_name.outputs.app_name }} .helm-tmpl

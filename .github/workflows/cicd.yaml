@@ -16,13 +16,13 @@ jobs:
   INIT:
     uses: ./.github/workflows/rw-init.yaml
     with:
-      paths_include: 'apps'
+      modules_changed: 'apps'
 
   CI:
     needs: INIT
     uses: ./.github/workflows/rw-ci.yaml
     with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
+      modules_changed: ${{ needs.INIT.outputs.modules_changed }}
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -30,7 +30,7 @@ jobs:
     needs: [INIT, CI]
     uses: ./.github/workflows/rw-cd.yaml
     with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
+      modules_changed: ${{ needs.INIT.outputs.modules_changed }}
       tag: ${{ needs.CI.outputs.tag }}
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
