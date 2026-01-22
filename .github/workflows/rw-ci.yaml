@@ -117,7 +117,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build / Push Container Image
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v6
       if: >
         !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
       with:
