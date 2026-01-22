@@ -53,7 +53,7 @@ jobs:
         echo "build_context=$build_context" >> $GITHUB_OUTPUT
 
     - name: Lint Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
+      uses: hadolint/hadolint-action@v3.3.0
       with:
         dockerfile: ${{ steps.set_build_context.outputs.build_context }}/Dockerfile
         no-fail: true
