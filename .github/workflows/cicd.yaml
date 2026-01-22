@@ -8,7 +8,7 @@ on:
     branches:
     - main
     paths:
-    - apps/**
+    - src/**
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -18,7 +18,7 @@ jobs:
   INIT:
     uses: ./.github/workflows/rw-init.yaml
     with:
-      src_path: 'apps'
+      src_path: 'src'
 
   CI:
     needs: INIT
