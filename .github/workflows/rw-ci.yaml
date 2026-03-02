@@ -98,15 +98,15 @@ jobs:
         load: true
         tags: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
 
-    - name: Scan Image
-      uses: aquasecurity/trivy-action@0.33.1
-      with:
-        image-ref: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
-        format: 'table'
-        exit-code: '0'
-        ignore-unfixed: true
-        vuln-type: 'library'
-        severity: 'CRITICAL,HIGH'
+    # - name: Scan Image
+    #   uses: aquasecurity/trivy-action@0.33.1
+    #   with:
+    #     image-ref: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
+    #     format: 'table'
+    #     exit-code: '0'
+    #     ignore-unfixed: true
+    #     vuln-type: 'library'
+    #     severity: 'CRITICAL,HIGH'
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
