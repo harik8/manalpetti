@@ -4,7 +4,7 @@ LABEL HARI KARTHIGASU <khprasaad@gmail.com>
 
 WORKDIR /app
 
-COPY ./src/requirements.txt /app/
+COPY ./src/requirements.txt .
 
 RUN pip3 install --upgrade pip && \
     pip3 install -r requirements.txt
