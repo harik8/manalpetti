@@ -1,0 +1,13 @@
+{{- if .Values.cnpg.enabled -}}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "Chart.Name.fullname" . }}
+  namespace: {{ .Release.Namespace }}-cnpg
+  labels:
+    {{- include "Chart.Name.labels" . | nindent 4 }}
+spec:
+  instances: {{ .Values.cnpg.instances }}
+  storage:
+    size: {{ .Values.cnpg.storage_size }}
+{{- end }}
