@@ -73,16 +73,16 @@ sidecar:
     pullPolicy: IfNotPresent
   args: ["--nginx.scrape-uri=http://127.0.0.1:80/stub_status"]
 
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  exec:
-    command:
-      - /bin/sh
-      - -c
-      - sed -i "s/\$HOSTNAME/$HOSTNAME/g; s/\$IP_ADDR/$IP_ADDR/g" /usr/share/nginx/html/index.html
+# livenessProbe:
+#   httpGet:
+#     path: /
+#     port: http
+# readinessProbe:
+#   exec:
+#     command:
+#       - /bin/sh
+#       - -c
+#       - sed -i "s/\$HOSTNAME/$HOSTNAME/g; s/\$IP_ADDR/$IP_ADDR/g" /usr/share/nginx/html/index.html
 
 autoscaling:
   enabled: false
