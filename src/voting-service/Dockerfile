@@ -7,7 +7,7 @@ WORKDIR /app
 COPY ./src/requirements.txt /app/
 
 RUN pip3 install --upgrade pip && \
-    pip3 install -r ./src/requirements.txt
+    pip3 install -r requirements.txt
 
 FROM gcr.io/distroless/python3
 
