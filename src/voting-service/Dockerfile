@@ -4,10 +4,10 @@ LABEL HARI KARTHIGASU <khprasaad@gmail.com>
 
 WORKDIR /app
 
-COPY requirements.txt /app/
+COPY ./src/requirements.txt /app/
 
 RUN pip3 install --upgrade pip && \
-    pip3 install -r ./requirements.txt
+    pip3 install -r ./src/requirements.txt
 
 FROM gcr.io/distroless/python3
 
