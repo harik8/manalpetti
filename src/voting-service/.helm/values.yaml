@@ -94,6 +94,7 @@ autoscaling:
 cnpg:
   enabled: true
   storage_size: 1Gi
+  instances: 1
 
 # Additional volumes on the output Deployment definition.
 volumes: []
