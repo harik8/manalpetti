@@ -17,6 +17,8 @@ permissions:
 jobs:
   INIT:
     uses: ./.github/workflows/rw-init.yaml
+    with:
+      src_path: images
 
   CI:
     needs: INIT
