@@ -7,9 +7,13 @@ import (
 	"os"
 
 	"github.com/go-chi/chi/v5"
-    "github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jackc/pgx/v5"
 )
+
+type candidate struct {
+	candidate string `json:"candidate" bson:"candidate"`
+}
 
 func main() {
 	conn, err := pgx.Connect(context.Background(), os.Getenv("CNPG_URI"))
@@ -23,6 +27,20 @@ func main() {
 		log.Fatal(err)
 	} else {
 		log.Println("DB connection is established")
+		_, err = conn.Exec(ctx, "CREATE SCHEMA IF NOT EXISTS voting")
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = conn.Exec(ctx, `
+        CREATE TABLE IF NOT EXISTS voting.candidates (
+            id SERIAL PRIMARY KEY,
+            candidate VARCHAR(10),
+            votes INT DEFAULT 0
+        )
+    `)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	r := chi.NewRouter()
@@ -35,5 +53,5 @@ func main() {
 	})
 
 	// http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
-    http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":8080", r)
 }
