@@ -98,6 +98,8 @@ jobs:
         load: true
         tags: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
 
+    # Disabled trivy due to https://github.com/aquasecurity/trivy/discussions/10265
+
     # - name: Scan Image
     #   uses: aquasecurity/trivy-action@0.33.1
     #   with:
