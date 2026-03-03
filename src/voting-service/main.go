@@ -27,25 +27,13 @@ func main() {
 		log.Fatal(err)
 	} else {
 		log.Println("DB connection is established")
-		schema, err = conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS voting")
-		if err != nil {
-			log.Fatal(err)
-		} else {
-            log.Println(schema)
-        }
-		table, err = conn.Exec(context.Background(), `
-        CREATE TABLE IF NOT EXISTS voting.candidates (
-            id SERIAL PRIMARY KEY,
-            candidate VARCHAR(10),
-            votes INT DEFAULT 0
-        )
-    `)
-		if err != nil {
-			log.Fatal(err)
-		} else {
-            log.Println(table)
-        }
 	}
+
+    // CREATE TABLE IF NOT EXISTS voting.candidates (
+    //     id SERIAL PRIMARY KEY,
+    //     candidate VARCHAR(10),
+    //     votes INT DEFAULT 0
+    // );
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
