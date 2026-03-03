@@ -21,7 +21,19 @@
 
 # CMD ["app.py"]
 
-FROM python:3
+# FROM python:3
+# WORKDIR /app
+# COPY . .
+# CMD ["python", "-m", "http.server", "8000"]
+
+FROM golang:1.22-alpine AS build
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
-CMD ["python", "-m", "http.server", "8000"]
+RUN go build -o main .
+
+FROM alpine:latest
+WORKDIR /app
+COPY --from=build /app/main .
+CMD ["./main"]
