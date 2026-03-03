@@ -3,8 +3,9 @@ package main
 import (
     "context"
     "log"
+    "time"
     "github.com/jackc/pgx/v5"
-	"os"
+    "os"
 )
 
 func main() {
@@ -14,7 +15,12 @@ func main() {
     }
     defer conn.Close(context.Background())
 
-    if err = conn.Ping(context.Background()); err != nil {
-        log.Fatal(err)
+    for {
+        if err = conn.Ping(context.Background()); err != nil {
+            log.Printf("ping failed: %v", err)
+        } else {
+            log.Println("connected to database")
+        }
+        time.Sleep(5 * time.Second)
     }
 }
