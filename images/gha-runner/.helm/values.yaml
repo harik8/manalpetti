@@ -87,6 +87,3 @@ env:
     value: https://github.com/harik8/manalpetti
   - name: RUNNER_TOKEN
     value: ""
-
-cnpg:
-  enabled: false
