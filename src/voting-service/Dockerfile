@@ -26,7 +26,7 @@
 # COPY . .
 # CMD ["python", "-m", "http.server", "8000"]
 
-FROM golang:1.22-alpine AS build
+FROM golang:1.25.7-alpine AS build
 WORKDIR /app
 
 COPY ./go.mod ./go.sum ./
