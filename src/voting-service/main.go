@@ -34,5 +34,6 @@ func main() {
 		w.Write([]byte("pong"))
 	})
 
-	http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
+	// http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
+    http.ListenAndServe(":8080", r)
 }
