@@ -49,7 +49,7 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
-            {{- if .Values.cnpg.enabled -}}
+            {{- if .Values.cnpg.enabled }}
             - name: CNPG_URI
               valueFrom:
                 secretKeyRef:
