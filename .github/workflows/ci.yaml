@@ -18,12 +18,12 @@ jobs:
   INIT:
     uses: ./.github/workflows/rw-init.yaml
     with:
-      paths_include: 'images'
+      src_path: 'images'
 
   CI:
     needs: INIT
     uses: ./.github/workflows/rw-ci.yaml
     with:
-      paths_modified: ${{ needs.INIT.outputs.paths_modified }}
+      modules_changed: ${{ needs.INIT.outputs.modules_changed }}
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
