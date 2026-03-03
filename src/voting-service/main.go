@@ -29,11 +29,11 @@ func main() {
 		log.Println("DB connection is established")
 	}
 
-    // CREATE TABLE IF NOT EXISTS voting.candidates (
-    //     id SERIAL PRIMARY KEY,
-    //     candidate VARCHAR(10),
-    //     votes INT DEFAULT 0
-    // );
+	// CREATE TABLE IF NOT EXISTS voting.candidates (
+	//     id SERIAL PRIMARY KEY,
+	//     candidate VARCHAR(10),
+	//     votes INT DEFAULT 0
+	// );
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
@@ -42,6 +42,20 @@ func main() {
 
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("pong"))
+	})
+
+	r.Post("/vote/{candidate}", func(w http.ResponseWriter, r *http.Request) {
+		candidateName := chi.URLParam(r, "candidate")
+
+		_, err := conn.Exec(context.Background(),
+			"UPDATE candidates SET votes = votes + 1 WHERE candidate = $1",
+			candidateName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write([]byte("vote recorded"))
 	})
 
 	// http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
