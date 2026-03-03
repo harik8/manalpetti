@@ -27,11 +27,13 @@ func main() {
 		log.Fatal(err)
 	} else {
 		log.Println("DB connection is established")
-		_, err = conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS voting")
+		schema, err = conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS voting")
 		if err != nil {
 			log.Fatal(err)
-		}
-		_, err = conn.Exec(context.Background(), `
+		} else {
+            log.Println(schema)
+        }
+		table, err = conn.Exec(context.Background(), `
         CREATE TABLE IF NOT EXISTS voting.candidates (
             id SERIAL PRIMARY KEY,
             candidate VARCHAR(10),
@@ -40,7 +42,9 @@ func main() {
     `)
 		if err != nil {
 			log.Fatal(err)
-		}
+		} else {
+            log.Println(table)
+        }
 	}
 
 	r := chi.NewRouter()
