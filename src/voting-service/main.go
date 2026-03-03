@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
-	"github.com/jackc/pgx/v5"
 	"log"
+	"net/http"
 	"os"
 	"time"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5"
 )
 
 func main() {
@@ -15,13 +18,21 @@ func main() {
 	}
 	defer conn.Close(context.Background())
 
-	for {
-		err = conn.Ping(context.Background())
-		if err != nil {
-			log.Printf("ping failed: %v", err)
-		} else {
-			log.Println("connected to database")
-		}
-		time.Sleep(5 * time.Second)
+	err = conn.Ping(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		log.Println("DB connection is established")
 	}
+
+	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+
+	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("pong"))
+	})
+
+	http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
 }
