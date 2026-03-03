@@ -28,11 +28,19 @@
 
 FROM golang:1.22-alpine AS build
 WORKDIR /app
-COPY go.mod go.sum ./
-COPY . .
-RUN go build -o main .
 
-FROM alpine:latest
-WORKDIR /app
-COPY --from=build /app/main .
+COPY ./go.mod ./go.sum ./
+
+COPY . .
+
+RUN go build .
+
+#FROM gcr.io/distroless/base
+
+#WORKDIR /app
+
+EXPOSE 8080
+
+#COPY --from=build /app/todo-list-service .
+
 CMD ["./main"]
