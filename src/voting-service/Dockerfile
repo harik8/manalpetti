@@ -43,4 +43,4 @@ EXPOSE 8080
 
 #COPY --from=build /app/todo-list-service .
 
-CMD ["./main"]
+CMD ["./voting-service"]
