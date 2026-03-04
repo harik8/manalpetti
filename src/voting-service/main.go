@@ -35,6 +35,8 @@ func main() {
 	//     votes INT DEFAULT 0
 	// );
 
+    // INSERT INTO candidates (candidate) VALUES ('green');
+
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
@@ -56,6 +58,20 @@ func main() {
 		}
 
 		w.Write([]byte("vote recorded"))
+	})
+
+	r.Get("/result/{candidate}", func(w http.ResponseWriter, r *http.Request) {
+		candidateName := chi.URLParam(r, "candidate")
+
+		v, err := conn.Exec(context.Background(),
+			"SELECT votes FROM candidates WHERE candidate = $1",
+			candidateName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write([]byte(v))
 	})
 
 	// http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
