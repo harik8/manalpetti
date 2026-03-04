@@ -59,7 +59,7 @@ func main() {
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
+		fmt.Fprintln(w, "OK")
 	})
 
 	r.Get("/result/{candidate}", func(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +74,7 @@ func main() {
 			return
 		}
 
-		fmt.Fprintf(w, "%d", votes)
+		fmt.Fprintln(w, "%d", votes)
 	})
 
 	http.ListenAndServe(":8080", r)
