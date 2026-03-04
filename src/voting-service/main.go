@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -35,7 +36,7 @@ func main() {
 	//     votes INT DEFAULT 0
 	// );
 
-    // INSERT INTO candidates (candidate) VALUES ('green');
+	// INSERT INTO candidates (candidate) VALUES ('green');
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
@@ -63,15 +64,16 @@ func main() {
 	r.Get("/result/{candidate}", func(w http.ResponseWriter, r *http.Request) {
 		candidateName := chi.URLParam(r, "candidate")
 
-		v, err := conn.Exec(context.Background(),
+		var votes int
+		err := conn.QueryRow(context.Background(),
 			"SELECT votes FROM candidates WHERE candidate = $1",
-			candidateName)
+			candidateName).Scan(&votes)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		w.Write([]byte(v))
+		fmt.Fprintf(w, "%d", votes)
 	})
 
 	// http.ListenAndServe(os.Getenv("IP_ADDR")+":"+"8080", r)
