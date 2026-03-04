@@ -74,7 +74,7 @@ func main() {
 			return
 		}
 
-		fmt.Fprintln(w, "%d", votes)
+		fmt.Fprintln(w, votes)
 	})
 
 	http.ListenAndServe(":8080", r)
