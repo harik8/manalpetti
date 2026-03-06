@@ -35,11 +35,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx
+    - name: Setup Docker Buildx
       uses: docker/setup-buildx-action@v2
-
-    - name: Check Docker daemon
-      run: docker info
 
     - name: Set Build Context
       id: set_build_context
@@ -51,12 +48,6 @@ jobs:
         fi
 
         echo "build_context=$build_context" >> $GITHUB_OUTPUT
-
-    - name: Lint Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: ${{ steps.set_build_context.outputs.build_context }}/Dockerfile
-        no-fail: true
 
     - name: Set Image Tag
       id: set_tag
@@ -91,26 +82,13 @@ jobs:
         app_name=$(echo "${{ matrix.apps }}" | cut -f2 -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
-    - name: Build Container Image
-      uses: docker/build-push-action@v6
+    - name: Hadolint
+      uses: hadolint/hadolint-action@v3.1.0
       with:
-        context: ${{ steps.set_build_context.outputs.build_context }}
-        load: true
-        tags: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
+        dockerfile: ${{ steps.set_build_context.outputs.build_context }}/Dockerfile
+        no-fail: true
 
-    # Disabled trivy due to https://github.com/aquasecurity/trivy/discussions/10265
-
-    # - name: Scan Image
-    #   uses: aquasecurity/trivy-action@0.33.1
-    #   with:
-    #     image-ref: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
-    #     format: 'table'
-    #     exit-code: '0'
-    #     ignore-unfixed: true
-    #     vuln-type: 'library'
-    #     severity: 'CRITICAL,HIGH'
-
-    - name: Log in to Docker Hub
+    - name: Log in Docker Hub
       uses: docker/login-action@v3
       if: >  
         !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
@@ -118,7 +96,7 @@ jobs:
         username: ${{ vars.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build / Push Container Image
+    - name: Build Push Container Image
       uses: docker/build-push-action@v4
       if: >
         !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
@@ -128,5 +106,12 @@ jobs:
         push: true
         tags:  ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
 
-    - name: Image digest
-      run: echo ${{ steps.build.outputs.digest }}
+    - name: Trivy
+      uses: aquasecurity/trivy-action@0.34.2
+      with:
+        image-ref: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
+        format: 'table'
+        exit-code: '0'
+        ignore-unfixed: true
+        vuln-type: 'library'
+        severity: 'CRITICAL,HIGH'
