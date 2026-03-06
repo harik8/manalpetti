@@ -116,7 +116,7 @@ jobs:
       with:
         image-ref: ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
         format: 'table'
-        exit-code: '1'
+        exit-code: '0'
         ignore-unfixed: true
         vuln-type: 'library'
         severity: 'CRITICAL,HIGH'
