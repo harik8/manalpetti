@@ -17,7 +17,7 @@ jobs:
   INIT:
     runs-on: ubuntu-slim
     outputs:
-      apps_modified:  ${{ steps.get_modules_changed.outputs.apps_modified }}
+      apps_modified:  ${{ steps.get_apps_modified.outputs.apps_modified }}
 
     steps:
     - name: Checkout repository
