@@ -3,21 +3,21 @@ name: INIT
 on:
   workflow_call:
     inputs:
-      src_path:
+      apps_path:
         type: string
-        description: Source code path
+        description: Path to the application source code build context
         default: '["${{ github.event.repository.name }}"]'
         required: false
     outputs:
-      modules_changed:
-        description: List of modules changed from given source path by last commit
-        value: ${{ jobs.INIT.outputs.modules_changed }}
+      apps_modified:
+        description:  List of applications modified in the last commit
+        value: ${{ jobs.INIT.outputs.apps_modified }}
 
 jobs:
   INIT:
     runs-on: ubuntu-slim
     outputs:
-      modules_changed:  ${{ steps.get_modules_changed.outputs.modules_changed }}
+      apps_modified:  ${{ steps.get_modules_changed.outputs.apps_modified }}
 
     steps:
     - name: Checkout repository
@@ -25,19 +25,17 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Get Modules Changed
-      id: get_modules_changed
+    - name: Get Apps Modified
+      id: get_apps_modified
       run: |
-        set +x
-
-        modules_changed=$(git diff HEAD HEAD~ --name-only \
+        apps_modified=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
           | cut -d'/' -f1-2 \
-          | grep -E "${{ inputs.src_path }}" \
+          | grep -E "${{ inputs.apps_path }}" \
           | sort -u \
           | jq -R . | jq -s .)
-        echo $modules_changed
+        echo $apps_modified
 
-        echo "modules_changed<<EOF" >> $GITHUB_OUTPUT
-        echo "$modules_changed" >> $GITHUB_OUTPUT
+        echo "apps_modified<<EOF" >> $GITHUB_OUTPUT
+        echo "$apps_modified" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT

@@ -3,15 +3,15 @@ name: CI
 on:
   workflow_call:
     inputs:
+      apps_modified:
+        type: string
+        description: List of applications modified in the last commit
+        default: '["${{ github.event.repository.name }}"]'
+        required: false
       build_args:
         type: string
         description: List of build args for Docker build
         default: ""
-        required: false
-      modules_changed:
-        type: string
-        description: List of modules changed from given source path by last commit
-        default: '["${{ github.event.repository.name }}"]'
         required: false
     outputs:
       tag:
@@ -24,12 +24,12 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
-    if: ${{ inputs.modules_changed != '[]' }}
+    if: ${{ inputs.apps_modified != '[]' }}
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
     strategy:
       matrix:
-        apps: ${{ fromJson(inputs.modules_changed) }}
+        apps: ${{ fromJson(inputs.apps_modified) }}
 
     steps:
     - name: Checkout repository
@@ -52,7 +52,6 @@ jobs:
     - name: Set Image Tag
       id: set_tag
       run: |
-        set +x
         # There are two types of apps. One which have VERSION defined in Dockerfile like custom build addons e.g. gha-runner
         # Another type is standard apps where we use git branch name or tag name as version
         
@@ -78,7 +77,6 @@ jobs:
     - name: Set App Name
       id: set_app_name
       run: |
-        set +x
         app_name=$(echo "${{ matrix.apps }}" | cut -f2 -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 

@@ -3,9 +3,9 @@ name: CD
 on:
   workflow_call:
     inputs:
-      modules_changed:
+      apps_modified:
         type: string
-        description: List of modules changed from given source path by last commit
+        description: List of applications modified in the last commit
       stage:
         type: string
         description: Stage to deploy
@@ -25,7 +25,7 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       matrix:
-        apps: ${{ fromJson(inputs.modules_changed) }}
+        apps: ${{ fromJson(inputs.apps_modified) }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
@@ -38,14 +38,11 @@ jobs:
     - name: Set App Name
       id: set_app_name
       run: |
-        set +x
         app_name=$(echo "${{ matrix.apps }}" | cut -f2 -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Deploy
       run: |
-        set +x
-
         sed -i "s/^name: .*/name: ${{ steps.set_app_name.outputs.app_name }}/" .helm-tmpl/Chart.yaml
         sed -i "s/^appVersion: .*/appVersion: ${{ inputs.tag }}/" .helm-tmpl/Chart.yaml
 
