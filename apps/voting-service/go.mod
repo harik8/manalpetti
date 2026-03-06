@@ -1,4 +1,4 @@
-module harik8/manalpetti/src/voting-service
+module harik8/manalpetti/apps/voting-service
 
 go 1.25.7
 
