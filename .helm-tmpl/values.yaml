@@ -114,3 +114,5 @@ canary:
 rbac:
   clusterAdmin: false
 
+cnpg:
+  enabled: false

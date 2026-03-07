@@ -33,6 +33,7 @@ helm upgrade --install --atomic --create-namespace --namespace prometheus --vers
 echo "Installing cnpg..."
 helm upgrade --install --atomic --create-namespace --namespace cnpg --version 0.27.1 --values cnpg/values.yaml cnpg cnpg/cloudnative-pg
 
+echo "PAT: $PAT_TOKEN"
 if [ $PAT_TOKEN ]; then
   cd ..
   echo "Installing gha-runner..."
