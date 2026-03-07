@@ -14,7 +14,7 @@ RESPONSE=$(curl -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/$REPO/actions/runners/registration-token)
 
-RUNNER_TOKEN=$(echo $RESPONSE | jq '.["token"]')
+RUNNER_TOKEN=$(echo $RESPONSE | jq '.["token"]' | tr -d '"')
 echo "RUNNER_TOKEN: $RUNNER_TOKEN"
 
 ./config.sh --unattended \
