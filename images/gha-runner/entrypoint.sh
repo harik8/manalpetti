@@ -1,12 +1,10 @@
 #!/bin/bash
 set -e
 
-if [ -z "$REPO_URL" ] || [ -z "$PAT" ]; then
-  echo "REPO_URL and PAT environment variables must be set"
+if [ -z "$REPO" ] || [ -z "$PAT" ]; then
+  echo "REPO and PAT environment variables must be set"
   exit 1
 fi
-
-REPO=$(echo "awk $REPO_URL" | awk '{split($2,a,"/"); print a[4]"/"a[5]}')
 
 RESPONSE=$(curl -X POST \
   -H "Authorization: token $PAT" \
@@ -16,7 +14,7 @@ RESPONSE=$(curl -X POST \
 RUNNER_TOKEN=$(echo $RESPONSE | jq '.["token"]' | tr -d '"')
 
 ./config.sh --unattended \
-  --url "$REPO_URL" \
+  --url "https://github.com/$REPO" \
   --token "$RUNNER_TOKEN" \
   --name "${RUNNER_NAME:-$(hostname)}" \
   --work "_work" \
