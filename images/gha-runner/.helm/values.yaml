@@ -85,5 +85,5 @@ rbac:
 env:
   - name: REPO_URL
     value: https://github.com/harik8/manalpetti
-  - name: RUNNER_TOKEN
+  - name: PAT_TOKEN
     value: ""

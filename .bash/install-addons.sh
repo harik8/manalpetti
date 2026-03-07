@@ -33,14 +33,14 @@ helm upgrade --install --atomic --create-namespace --namespace prometheus --vers
 echo "Installing cnpg..."
 helm upgrade --install --atomic --create-namespace --namespace cnpg --version 0.27.1 --values cnpg/values.yaml cnpg cnpg/cloudnative-pg
 
-if [ $RUNNER_TOKEN ]; then
+if [ $PAT_TOKEN ]; then
   cd ..
   echo "Installing gha-runner..."
   helm upgrade --install --atomic \
     --create-namespace \
     --namespace gha-runner \
 	  --set image.tag="$(grep 'ENV VERSION=' "images/gha-runner/Dockerfile" | cut -d'=' -f2)" \
-	  --set env[1].value=$RUNNER_TOKEN \
+	  --set env[1].value=$PAT_TOKEN \
     -f .helm-tmpl/values.yaml -f images/gha-runner/.helm/values.yaml -f images/gha-runner/.helm/sandbox/values.yaml \
     gha-runner .helm-tmpl
 fi
