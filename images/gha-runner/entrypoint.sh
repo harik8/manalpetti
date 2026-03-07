@@ -7,7 +7,6 @@ if [ -z "$REPO_URL" ] || [ -z "$PAT" ]; then
 fi
 
 REPO=$(echo "awk $REPO_URL" | awk '{split($2,a,"/"); print a[4]"/"a[5]}')
-echo "REPO: $REPO"
 
 RESPONSE=$(curl -X POST \
   -H "Authorization: token $PAT" \
@@ -15,7 +14,6 @@ RESPONSE=$(curl -X POST \
   https://api.github.com/repos/$REPO/actions/runners/registration-token)
 
 RUNNER_TOKEN=$(echo $RESPONSE | jq '.["token"]' | tr -d '"')
-echo "RUNNER_TOKEN: $RUNNER_TOKEN"
 
 ./config.sh --unattended \
   --url "$REPO_URL" \
