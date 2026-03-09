@@ -39,7 +39,7 @@ if [ $PAT ]; then
   helm upgrade --install --atomic \
     --create-namespace \
     --namespace gha-runner \
-    --set image.tag="2.332.0-2890e" \
+    --set image.tag="$(grep 'ENV VERSION=' "images/gha-runner/Dockerfile" | cut -d'=' -f2)" \
 	  --set env[1].value=$PAT \
     -f .helm-tmpl/values.yaml -f images/gha-runner/.helm/values.yaml -f images/gha-runner/.helm/sandbox/values.yaml \
     gha-runner .helm-tmpl
