@@ -83,7 +83,7 @@ rbac:
   clusterAdmin: true
 
 env:
-  - name: REPO_URL
-    value: https://github.com/harik8/manalpetti
-  - name: RUNNER_TOKEN
+  - name: REPO
+    value: harik8/manalpetti
+  - name: PAT
     value: ""
