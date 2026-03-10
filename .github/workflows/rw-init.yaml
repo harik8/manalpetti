@@ -9,9 +9,9 @@ on:
         default: '["${{ github.event.repository.name }}"]'
         required: false
       apps_path_depth:
-        type: number
+        type: string
         description: Apps path's depth from root directory
-        default: 1
+        default: 1-2
         required: false
     outputs:
       apps_modified:
@@ -33,10 +33,9 @@ jobs:
     - name: Get Apps Modified
       id: get_apps_modified
       run: |
-        apps_path_depth_limit=${{ inputs.apps_path_depth + 1 }}
         apps_modified=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
-          | cut -d'/' -f1-$apps_path_depth_limit \
+          | cut -d'/' -f${{ inputs.apps_path_depth }} \
           | grep -E "${{ inputs.apps_path }}" \
           | sort -u \
           | jq -R . | jq -s .)
