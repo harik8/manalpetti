@@ -22,7 +22,7 @@ jobs:
   CD:
     runs-on: self-hosted
     if: >
-      !contains(github.event.pull_request.labels.*.name, 'ci-skippush') || matrix.apps != "gha-runner"
+      !contains(github.event.pull_request.labels.*.name, 'ci-skippush') || ${{ matrix.apps }} != "gha-runner"
     strategy:
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
