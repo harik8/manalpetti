@@ -10,7 +10,7 @@ on:
         required: false
       apps_path_depth:
         type: string
-        description: App folder's depth from apps_path
+        description:  Depth level of apps within apps_path (e.g., 2 for apps/*, 3 for apps/*/*)
         default: 2
         required: false
     outputs:
