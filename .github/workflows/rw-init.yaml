@@ -8,6 +8,11 @@ on:
         description: Path to the application source code build context
         default: '["${{ github.event.repository.name }}"]'
         required: false
+      apps_path_depth:
+        type: number
+        description: Apps path's depth from root directory
+        default: 1
+        required: false
     outputs:
       apps_modified:
         description:  List of applications modified in the last commit
@@ -28,9 +33,10 @@ jobs:
     - name: Get Apps Modified
       id: get_apps_modified
       run: |
+        apps_path_depth_limit=$(({{ inputs.apps_path_depth }} + 1))
         apps_modified=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
-          | cut -d'/' -f1-2 \
+          | cut -d'/' -f1-$apps_path_depth_limit \
           | grep -E "${{ inputs.apps_path }}" \
           | sort -u \
           | jq -R . | jq -s .)
