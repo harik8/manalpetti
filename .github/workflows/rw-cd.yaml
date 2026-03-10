@@ -6,6 +6,11 @@ on:
       apps_modified:
         type: string
         description: List of applications modified in the last commit
+      apps_path_depth:
+        type: string
+        description:  Depth level of apps within apps_path (e.g., 2 for apps/*, 3 for apps/*/*)
+        default: 2
+        required: false
       stage:
         type: string
         description: Stage to deploy
@@ -38,7 +43,7 @@ jobs:
     - name: Set App Name
       id: set_app_name
       run: |
-        app_name=$(echo "${{ matrix.apps }}" | cut -f2 -d '/')
+        app_name=$(echo "${{ matrix.apps }}" | cut -f${{ inputs.apps_path_depth }} -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Deploy

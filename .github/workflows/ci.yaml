@@ -28,5 +28,6 @@ jobs:
     uses: ./.github/workflows/rw-ci.yaml
     with:
       apps_modified: ${{ needs.INIT.outputs.apps_modified }}
+      apps_path_depth: 3
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
