@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v4
 
     - name: Set Build Context
       id: set_build_context
