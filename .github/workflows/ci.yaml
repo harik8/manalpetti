@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/rw-init.yaml
     with:
       apps_path: 'addons/custom'
-      apps_path_depth: 1-3
+      apps_path_depth: 3
 
   CI:
     needs: INIT
