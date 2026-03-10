@@ -8,6 +8,11 @@ on:
         description: List of applications modified in the last commit
         default: '["${{ github.event.repository.name }}"]'
         required: false
+      apps_path_depth:
+        type: string
+        description:  Depth level of apps within apps_path (e.g., 2 for apps/*, 3 for apps/*/*)
+        default: 2
+        required: false
       build_args:
         type: string
         description: List of build args for Docker build
@@ -77,7 +82,7 @@ jobs:
     - name: Set App Name
       id: set_app_name
       run: |
-        app_name=$(echo "${{ matrix.apps }}" | cut -f2 -d '/')
+        app_name=$(echo "${{ matrix.apps }}" | cut -f${{ inputs.apps_path_depth }} -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Hadolint
