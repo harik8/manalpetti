@@ -21,11 +21,11 @@ on:
 jobs:
   CD:
     runs-on: self-hosted
+    if: >
+      !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
-    if: |
-      !contains(github.event.pull_request.labels.*.name, 'ci-skippush') && matrix.apps != 'gha-runner'
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
@@ -42,6 +42,8 @@ jobs:
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Deploy
+      if: |
+        ${{ matrix.apps }} != 'gha-runner'
       run: |
         sed -i "s/^name: .*/name: ${{ steps.set_app_name.outputs.app_name }}/" .helm-tmpl/Chart.yaml
         sed -i "s/^appVersion: .*/appVersion: ${{ inputs.tag }}/" .helm-tmpl/Chart.yaml
