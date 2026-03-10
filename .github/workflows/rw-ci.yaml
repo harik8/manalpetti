@@ -61,10 +61,7 @@ jobs:
           sha_short=$(echo "${{ github.event.pull_request.head.sha }}" | head -c5)
           if [ -n "$VERSION" ]; then
             tag="$VERSION-$sha_short"
-          else
-            tag="${{ github.head_ref }}-$sha_short"
-          fi
-        else
+            
           if [ -n "$VERSION" ]; then
             tag="$VERSION"
           else

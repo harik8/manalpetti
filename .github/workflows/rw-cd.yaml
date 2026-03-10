@@ -42,8 +42,6 @@ jobs:
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Deploy
-      if: |
-        ${{ steps.set_app_name.outputs.app_name }} != "gha-runner"
       run: |
         sed -i "s/^name: .*/name: ${{ steps.set_app_name.outputs.app_name }}/" .helm-tmpl/Chart.yaml
         sed -i "s/^appVersion: .*/appVersion: ${{ inputs.tag }}/" .helm-tmpl/Chart.yaml
