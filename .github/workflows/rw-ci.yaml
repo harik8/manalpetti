@@ -54,8 +54,6 @@ jobs:
       run: |
         # There are two types of apps. One which have VERSION defined in Dockerfile like custom build addons e.g. gha-runner
         # Another type is standard apps where we use git branch name or tag name as version
-
-        set +x
         
         VERSION=$(grep 'ENV VERSION=' "${{ steps.set_build_context.outputs.build_context }}/Dockerfile" | cut -d'=' -f2)
 
@@ -63,7 +61,10 @@ jobs:
           sha_short=$(echo "${{ github.event.pull_request.head.sha }}" | head -c5)
           if [ -n "$VERSION" ]; then
             tag="$VERSION-$sha_short"
-            
+          else
+            tag="${{ github.head_ref }}-$sha_short"
+          fi
+        else
           if [ -n "$VERSION" ]; then
             tag="$VERSION"
           else
