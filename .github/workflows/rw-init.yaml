@@ -33,7 +33,7 @@ jobs:
     - name: Get Apps Modified
       id: get_apps_modified
       run: |
-        apps_path_depth_limit=$(({{ inputs.apps_path_depth }} + 1))
+        apps_path_depth_limit=${{ inputs.apps_path_depth + 1 }}
         apps_modified=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
           | cut -d'/' -f1-$apps_path_depth_limit \
