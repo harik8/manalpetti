@@ -7,7 +7,7 @@ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm repo add argo https://argoproj.github.io/argo-helm
 helm repo update
 
-cd ../charts
+cd ../addons/charts
 
 echo "Installing alloy..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace alloy --version 1.3.1 --values alloy/values.yaml alloy grafana/alloy
@@ -39,8 +39,8 @@ if [ $PAT ]; then
   helm upgrade --install --rollback-on-failure \
     --create-namespace \
     --namespace gha-runner \
-    --set image.tag="$(grep 'ENV VERSION=' "apps/gha-runner/Dockerfile" | cut -d'=' -f2)" \
+    --set image.tag="$(grep 'ENV VERSION=' "custom/gha-runner/Dockerfile" | cut -d'=' -f2)" \
 	  --set env[1].value=$PAT \
-    -f .helm-tmpl/values.yaml -f apps/gha-runner/.helm/values.yaml -f apps/gha-runner/.helm/sandbox/values.yaml \
+    -f .helm-tmpl/values.yaml -f custom/gha-runner/.helm/values.yaml -f custom/gha-runner/.helm/sandbox/values.yaml \
     gha-runner .helm-tmpl
 fi
