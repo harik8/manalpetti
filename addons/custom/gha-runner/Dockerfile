@@ -41,3 +41,4 @@ RUN chmod +x /entrypoint.sh
 USER runner
 
 ENTRYPOINT ["/entrypoint.sh"]
+
