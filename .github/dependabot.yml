@@ -7,11 +7,14 @@ updates:
       interval: "daily"
     labels:
       - "ci-skippush"
+      - "dependabot"
   - package-ecosystem: "docker"
-    directories: 
+    directories:
+      - "/apps/gha-runner" 
+      - "/apps/voting-service"
       - "/apps/whoami"
-      - "/images/gha-runner"
     schedule:
       interval: "daily"
     labels:
       - "ci-skippush"
+      - "dependabot"
