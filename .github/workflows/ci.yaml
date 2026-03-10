@@ -10,7 +10,7 @@ on:
     - main
     - dev
     paths:
-      - apps/gha-runner/**
+      - addons/custom/**
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -20,7 +20,8 @@ jobs:
   INIT:
     uses: ./.github/workflows/rw-init.yaml
     with:
-      apps_path: 'apps'
+      apps_path: 'addons/custom'
+      apps_path_depth: 3
 
   CI:
     needs: INIT
