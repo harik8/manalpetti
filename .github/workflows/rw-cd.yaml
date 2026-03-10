@@ -24,8 +24,8 @@ jobs:
     strategy:
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
-    if: >
-      !contains(github.event.pull_request.labels.*.name, 'ci-skippush') || ${{ matrix.apps }} != "gha-runner"
+    if: |
+      !contains(github.event.pull_request.labels.*.name, 'ci-skippush') && matrix.apps != 'gha-runner'
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
