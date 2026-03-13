@@ -22,10 +22,15 @@ These workflows are built as modular, reusable components that can be called fro
 ## Key Features
 
 ✅ **Monorepo Support** - Automatically detects and builds only modified apps
+
 ✅ **Unirepo Support** - Works with single-app repositories
+
 ✅ **Reusable** - Call from any workflow in any repository
+
 ✅ **Flexible** - Configurable depth for nested directory structures
+
 ✅ **Secure**  Trivy and Hadolint
+
 ✅ **Smart Tagging** - Automatic version detection from Dockerfile or git
 
 ---
@@ -201,19 +206,6 @@ App-Specific Values
 Environment-Specific Values (highest priority)
   ↓
 {app}/.helm/{stage}/values.yaml
-```
-
-**Helm Command:**
-```bash
-helm upgrade --install --rollback-on-failure \
-  --create-namespace \
-  --namespace {app-name} \
-  --set image.repository={DOCKER_USERNAME}/{app-name} \
-  --set image.tag={tag} \
-  -f .helm-tmpl/values.yaml \
-  -f {app}/.helm/values.yaml \
-  -f {app}/.helm/{stage}/values.yaml \
-  {app-name} .helm-tmpl
 ```
 
 **Skip Deployment:**
