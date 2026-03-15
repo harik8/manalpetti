@@ -28,7 +28,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 1
+        fetch-depth: 2
 
     - name: Get Apps Modified
       id: get_apps_modified
