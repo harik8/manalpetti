@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 # Set environment variables
 ENV VERSION=2.332.0
@@ -16,7 +16,6 @@ RUN apt-get update && \
         iproute2 \
         tar \
         bash \
-        libicu66 \
         libkrb5-3 \
         zlib1g \
         sudo && \

@@ -10,7 +10,7 @@ updates:
       - "dependabot"
   - package-ecosystem: "docker"
     directories:
-      - "/apps/gha-runner" 
+      - "/addons/custom/gha-runner" 
       - "/apps/voting-service"
       - "/apps/whoami"
     schedule:

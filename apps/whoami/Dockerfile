@@ -1,6 +1,7 @@
-FROM nginx:1.27.0
+FROM nginx:1.29.6
 
 WORKDIR /usr/share/nginx/html
 
 COPY src/index.html .
 COPY src/default.conf /etc/nginx/conf.d/default.conf
+
