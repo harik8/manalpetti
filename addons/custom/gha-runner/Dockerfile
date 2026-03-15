@@ -16,7 +16,6 @@ RUN apt-get update && \
         iproute2 \
         tar \
         bash \
-        libicu66 \
         libkrb5-3 \
         zlib1g \
         sudo && \
