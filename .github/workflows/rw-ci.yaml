@@ -110,7 +110,7 @@ jobs:
         tags:  ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
 
     - name: Trivy
-      uses: aquasecurity/trivy-action@0.34.2
+      uses: aquasecurity/trivy-action@0.35.0
       if: >
         !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
       with:
