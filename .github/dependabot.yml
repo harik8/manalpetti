@@ -18,3 +18,12 @@ updates:
     labels:
       - "ci-skippush"
       - "dependabot"
+  - package-ecosystem: "helm"
+    directories:
+      - "/addons/charts/*"
+    schedule:
+      interval: "daily"
+    labels:
+      - "ci-skippush"
+      - "dependabot"
+      
