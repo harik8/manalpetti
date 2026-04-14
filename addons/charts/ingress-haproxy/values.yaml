@@ -52,7 +52,7 @@ controller:
     tcpPorts:
       - name: healthz
         port: 1042
-        targetPort: 1042  
+        targetPort: 1042
 
   logging:
     traffic:
