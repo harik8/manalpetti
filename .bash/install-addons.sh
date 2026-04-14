@@ -1,10 +1,10 @@
 #!/bin/bash
 
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm repo add argo https://argoproj.github.io/argo-helm
+helm repo add haproxy https://haproxytech.github.io/helm-charts
 helm repo update
 
 cd ../addons/charts
@@ -18,9 +18,6 @@ helm upgrade --install --rollback-on-failure --create-namespace --namespace argo
 echo "Installing grafana..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace grafana --version 10.1.2 --values grafana/values.yaml grafana grafana/grafana
 
-echo "Installing ingress-nginx..."
-helm upgrade --install --rollback-on-failure --create-namespace --namespace ingress-nginx --version 4.13.2 --values ingress-nginx/values.yaml ingress-nginx ingress-nginx/ingress-nginx
-
 echo "Installing loki..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace loki --version 6.43.0 --values loki/values.yaml loki grafana/loki
 
@@ -32,6 +29,9 @@ helm upgrade --install --rollback-on-failure --create-namespace --namespace prom
 
 echo "Installing cnpg..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace cnpg --version 0.27.1 --values cnpg/values.yaml cnpg cnpg/cloudnative-pg
+
+echo "Installing ingress-haproxy..."
+helm upgrade --install --rollback-on-failure --create-namespace --namespace ingress-haproxy --version 1.49.0 --values ingress-haproxy/values.yaml ingress-haproxy haproxy/kubernetes-ingress
 
 if [ $PAT ]; then
   cd ..
