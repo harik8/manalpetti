@@ -30,7 +30,7 @@ helm upgrade --install --rollback-on-failure --create-namespace --namespace prom
 echo "Installing cnpg..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace cnpg --version 0.27.1 --values cnpg/values.yaml cnpg cnpg/cloudnative-pg
 
-echo "Installing ingress-haproxy"
+echo "Installing ingress-haproxy..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace ingress-haproxy --version 1.49.0 --values ingress-haproxy/values.yaml ingress-haproxy haproxy/kubernetes-ingress
 
 if [ $PAT ]; then
