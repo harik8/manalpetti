@@ -1,0 +1,61 @@
+controller:
+  kind: Deployment
+  replicaCount: 1
+
+  unprivileged: false
+
+  ingressClassResource:
+    name: public
+    default: false
+    parameters: {}
+
+  ingressClass: public
+
+  containerPort:
+    http: 80
+    https: 443
+
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 1042
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 1042
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+  deployment:
+    useHostNetwork: true
+    useHostPort: true
+    hostPorts:
+      http: 80
+      https: 443
+
+  dnsPolicy: ClusterFirstWithHostNet
+
+  service:
+    enabled: true
+    type: ClusterIP
+    tcpPorts:
+      - name: healthz
+        port: 1042
+        targetPort: 1042  
+
+  logging:
+    traffic:
+      address: stdout
+      format: raw
+      facility: daemon

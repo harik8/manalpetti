@@ -2,7 +2,7 @@
 controller:
   kind: Deployment
   hostNetwork: true
-  replicaCount: 1
+  replicaCount: 0
 
   hostPort:
     enabled: true
@@ -13,10 +13,10 @@ controller:
     type: ""
 
   admissionWebhooks:
-    enabled: true
+    enabled: false
 
   ingressClassResource:
-    name: public
+    name: public_
 
   config:
     allowSnippetAnnotations: true
