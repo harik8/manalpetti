@@ -1,8 +1,8 @@
 <h1 align="center">
 Manal Petti
 <p align="center">
-  <a href="https://github.com/harik8/sandbox/actions/workflows/cicd.yaml">
-    <img src="https://github.com/harik8/sandbox/actions/workflows/cicd.yaml/badge.svg?branch=main" alt="RELEASE" /><br>
+  <a href="https://github.com/harik8/manalpetti/actions/workflows/cicd.yaml">
+    <img src="https://github.com/harik8/manalpetti/actions/workflows/cicd.yaml/badge.svg?branch=main" alt="RELEASE" /><br>
   </a>
 </p>
 </h1>

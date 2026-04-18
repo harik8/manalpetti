@@ -14,7 +14,7 @@ on:
       stage:
         type: string
         description: Stage to deploy
-        default: sandbox
+        default: wsl
       tag:
         type: string
         description: Docker image tag

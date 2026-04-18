@@ -170,7 +170,7 @@ jobs:
 |-------|------|----------|---------|-------------|
 | `appsJSON array of apps to deploy |
 | `apps_path_depth` | string | No | `2` | Directory depth for app name |
-| `stage` | string | No | `sandbox` | Deployment environment |
+| `stage` | string | No | `wsl` | Deployment environment |
 | `tag` | string | Yes | - | Docker image tag to deploy |
 
 **Secrets:**
@@ -262,7 +262,7 @@ jobs:
     with:
       apps_modified: ${{ needs.init.outputs.apps_modified }}
       tag: ${{ needs.ci.outputs.tag }}
-      stage: sandbox
+      stage: wsl
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
