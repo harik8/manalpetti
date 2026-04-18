@@ -9,9 +9,6 @@ helm repo update
 
 cd ../addons/charts
 
-echo "Installing alloy..."
-helm upgrade --install --rollback-on-failure --create-namespace --namespace alloy --values alloy/values.yaml alloy grafana/alloy
-
 echo "Installing argo-rollouts..."
 helm upgrade --install --rollback-on-failure --create-namespace --namespace argo-rollouts --values argo-rollouts/values.yaml  argo-rollouts argo/argo-rollouts
 
