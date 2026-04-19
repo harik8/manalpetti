@@ -18,3 +18,17 @@ updates:
     labels:
       - "ci-skippush"
       - "dependabot"
+  - package-ecosystem: "helm"
+    directories:
+      - "/addons/charts/argo-rollouts"
+      - "/addons/charts/cnpg"
+      - "/addons/charts/grafana"
+      - "/addons/charts/ingress-haproxy"
+      - "/addons/charts/loki"
+      - "/addons/charts/metrics-server"
+      - "/addons/charts/prometheus"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependabot"
+      
