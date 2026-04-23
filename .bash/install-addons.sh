@@ -13,6 +13,10 @@ echo "Installing argo-rollouts..."
 version=$(yq e '.dependencies[].version' argo-rollouts/Chart.yaml)
 helm upgrade --install --rollback-on-failure --create-namespace --namespace argo-rollouts --version $version --values argo-rollouts/values.yaml  argo-rollouts argo/argo-rollouts
 
+echo "Installing alloy..."
+version=$(yq e '.dependencies[].version' alloy/Chart.yaml)
+helm upgrade --install --rollback-on-failure --create-namespace --namespace alloy --version $version --values alloy/values.yaml alloy grafana/alloy
+
 echo "Installing grafana..."
 version=$(yq e '.dependencies[].version' grafana/Chart.yaml)
 helm upgrade --install --rollback-on-failure --create-namespace --namespace grafana --version $version --values grafana/values.yaml grafana grafana/grafana
