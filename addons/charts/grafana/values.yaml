@@ -16,11 +16,9 @@ datasources:
      
 persistence:
   type: pvc
-  enabled: false
+  enabled: true
 ingress:
   enabled: true
   ingressClassName: public
   hosts:
     - grafana.sb
-
-# helm upgrade --install --atomic --create-namespace --namespace grafana --version 10.1.2 --values value.yaml grafana grafana/grafana
