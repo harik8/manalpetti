@@ -5,6 +5,9 @@ on:
     branches:
     - main
     - dev
+    paths:
+      - addons/charts/**
+      - addons/custom/**
   pull_request:
     branches:
     - main
@@ -21,17 +24,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v6
 
-    - name: Helm Upgrade Install
-      id: set_app_name
+    - name: Addons Upgrade Install
+      id: install_addons
       run: |
         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
         helm repo add grafana https://grafana.github.io/helm-charts
         helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
         helm repo add argo https://argoproj.github.io/argo-helm
         helm repo add haproxy https://haproxytech.github.io/helm-charts
+        helm repo add cnpg https://cloudnative-pg.github.io/charts
         helm repo update
 
-        cd ../addons/charts
+        cd addons/charts
 
         echo "Installing argo-rollouts..."
         version=$(yq e '.dependencies[].version' argo-rollouts/Chart.yaml)
@@ -77,4 +81,3 @@ jobs:
             -f .helm-tmpl/values.yaml -f custom/gha-runner/.helm/values.yaml -f custom/gha-runner/.helm/wsl/values.yaml \
             gha-runner .helm-tmpl
         fi
-
