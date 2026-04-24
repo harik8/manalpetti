@@ -2,4 +2,4 @@
 dashboard:
   enabled: true
 
-# helm install argo-rollouts argo/argo-rollouts --namespace argo-rollouts --create-namespace --version 2.39.6 --values values.yaml argo/argo-rollouts
+
