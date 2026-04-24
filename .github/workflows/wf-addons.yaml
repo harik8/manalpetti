@@ -3,15 +3,15 @@ name: Install K8s Addons
 on:
   push:
     branches:
-    - main
-    - dev
+      - main
+      - dev
     paths:
       - addons/charts/**
       - addons/custom/**
   pull_request:
     branches:
-    - main
-    - dev
+      - main
+      - dev
     paths:
       - addons/charts/**
       - addons/custom/**
