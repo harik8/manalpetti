@@ -37,3 +37,22 @@ def result(candidate):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
+
+'''
+    --- DB SCHEMA ---
+    CREATE TABLE IF NOT EXISTS voting.candidates (
+	    id SERIAL PRIMARY KEY,
+	    candidate VARCHAR(10),
+	    votes INT DEFAULT 0
+	);
+
+	INSERT INTO candidates (candidate) VALUES ('blue');
+	INSERT INTO candidates (candidate) VALUES ('green');
+
+    --- CURL COMMANDS ---
+    curl -X POST localhost:8080/vote/blue
+    curl -X POST localhost:8080/vote/green
+
+    curl -X GET localhost:8080/result/blue
+    curl -X GET localhost:8080/result/green
+'''
