@@ -37,7 +37,7 @@ RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
     rm -rf linux-${HELM_ARCH}
 
 # Add Helm repo
-RUN helm repo add prometheus-community https://prometheus-community.github.io/helm-charts \
+RUN helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && \
     helm repo add grafana https://grafana.github.io/helm-charts && \
     helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ && \
     helm repo add argo https://argoproj.github.io/argo-helm && \
