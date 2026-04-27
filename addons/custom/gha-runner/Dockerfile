@@ -36,6 +36,12 @@ RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
     rm helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz && \
     rm -rf linux-${HELM_ARCH}
 
+# Add Helm repo
+RUN helm repo add prometheus-community https://prometheus-community.github.io/helm-charts \
+    helm repo add grafana https://grafana.github.io/helm-charts && \
+    helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ && \
+    helm repo add argo https://argoproj.github.io/argo-helm && \
+    helm repo add haproxy https://haproxytech.github.io/helm-charts
 
 # Create runner user
 RUN useradd -m runner && mkdir -p /actions-runner && chown runner:runner /actions-runner
