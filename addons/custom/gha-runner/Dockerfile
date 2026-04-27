@@ -26,12 +26,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Helm CLI
-RUN curl -o helm-v${HELM_VERSION}.tar.gz -L \
-    https://get.helm.sh/helm-v${HELM_VERSION}.tar.gz && \
-    tar -zxvf helm-v${HELM_VERSION}-linux-${HELM_ARCH}.tar.gz && \
+RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
+    https://get.helm.sh/helm-v${HELM_VERSION}-linux-${HELM_ARCH}.tar.gz && \
+    tar xzf ./helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz && \
     chmod +x linux-${HELM_ARCH}/helm && \
     cp linux-${HELM_ARCH}/helm /usr/local/bin && \
-    rm helm-v${HELM_VERSION}.tar.gz && \
+    rm helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz && \
     rm -rf linux-${HELM_ARCH}
 
 
