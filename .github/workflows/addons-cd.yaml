@@ -17,7 +17,7 @@ on:
       - addons/custom/**
         
 jobs:
-  Helm:
+  CD:
     runs-on: self-hosted
     timeout-minutes: 5
 
