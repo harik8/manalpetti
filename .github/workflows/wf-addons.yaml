@@ -71,6 +71,7 @@ jobs:
           helm upgrade --install --rollback-on-failure \
             --create-namespace \
             --namespace gha-runner \
+            --force \
             --set image.tag="$(grep 'ENV VERSION=' "custom/gha-runner/Dockerfile" | cut -d'=' -f2)" \
         	  --set env[1].value=$PAT \
             -f ${GITHUB_WORKSPACE}/.helm-tmpl/values.yaml -f custom/gha-runner/.helm/values.yaml -f custom/gha-runner/.helm/wsl/values.yaml \
