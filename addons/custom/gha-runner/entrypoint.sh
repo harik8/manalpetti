@@ -25,6 +25,8 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm repo add argo https://argoproj.github.io/argo-helm
 helm repo add haproxy https://haproxytech.github.io/helm-charts
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm repo update
 
 cleanup() {
   echo "Removing runner..."

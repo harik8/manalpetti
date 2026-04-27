@@ -1,16 +1,16 @@
 FROM ubuntu:24.04
 
 # Set environment variables
-ENV VERSION=2.332.0
+ENV VERSION=2.334.0
 ENV RUNNER_ARCH=x64
-ENV RUNNER_HASH=f2094522a6b9afeab07ffb586d1eb3f190b6457074282796c497ce7dce9e0f2a
+ENV RUNNER_HASH=048024cd2c848eb6f14d5646d56c13a4def2ae7ee3ad12122bee960c56f3d271
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HELM_VERSION=4.1.4
 ENV HELM_ARCH=amd64
 ENV HELM_HASH=70b2c30a19da4db264dfd68c8a3664e05093a361cefd89572ffb36f8abfa3d09
 
 # Install dependencies
-RUN apt-get update && \
+RUN  apt-get update && \
     apt-get install -y --no-install-recommends \
         curl \
         ca-certificates \
@@ -26,7 +26,11 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Helm CLI
+# Install yq
+RUN curl -fsSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && \
+    chmod +x /usr/local/bin/yq
+
+# Install helm
 RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
     https://get.helm.sh/helm-v${HELM_VERSION}-linux-${HELM_ARCH}.tar.gz && \
     echo "${HELM_HASH} *helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz" | shasum -a 256 -c && \
