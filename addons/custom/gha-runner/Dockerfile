@@ -9,8 +9,6 @@ ENV HELM_VERSION=4.1.4
 ENV HELM_ARCH=amd64
 ENV HELM_HASH=70b2c30a19da4db264dfd68c8a3664e05093a361cefd89572ffb36f8abfa3d09
 
-RUN add-apt-repository ppa:rmescandon/yq
-
 # Install dependencies
 RUN  apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -25,9 +23,12 @@ RUN  apt-get update && \
         libicu74 \
         zlib1g \
         yq \
+        snapd \
         sudo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN snap install yq
 
 # Install Helm CLI
 RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
