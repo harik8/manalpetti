@@ -22,15 +22,15 @@ RUN  apt-get update && \
         libkrb5-3 \
         libicu74 \
         zlib1g \
-        yq \
-        snapd \
         sudo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN snap install yq
+# Install yq
+RUN curl -fsSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && \
+    chmod +x /usr/local/bin/yq
 
-# Install Helm CLI
+# Install helm
 RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
     https://get.helm.sh/helm-v${HELM_VERSION}-linux-${HELM_ARCH}.tar.gz && \
     echo "${HELM_HASH} *helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz" | shasum -a 256 -c && \
