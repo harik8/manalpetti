@@ -50,6 +50,6 @@ if [ $PAT ]; then
     --namespace gha-runner \
     --set image.tag="$(grep 'ENV VERSION=' "custom/gha-runner/Dockerfile" | cut -d'=' -f2)" \
 	  --set env[1].value=$PAT \
-    -f .helm-tmpl/values.yaml -f custom/gha-runner/.helm/values.yaml -f custom/gha-runner/.helm/wsl/values.yaml \
-    gha-runner .helm-tmpl
+    -f ../.helm-tmpl/values.yaml -f custom/gha-runner/.helm/values.yaml -f custom/gha-runner/.helm/wsl/values.yaml \
+    gha-runner ../.helm-tmpl
 fi

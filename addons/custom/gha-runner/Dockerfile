@@ -20,6 +20,7 @@ RUN apt-get update && \
         tar \
         bash \
         libkrb5-3 \
+        libicu74 \
         zlib1g \
         sudo && \
     apt-get clean && \
@@ -34,7 +35,6 @@ RUN curl -o helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz -L \
     cp linux-${HELM_ARCH}/helm /usr/local/bin && \
     rm helm-linux-${HELM_ARCH}-${HELM_VERSION}.tar.gz && \
     rm -rf linux-${HELM_ARCH}
-
 
 # Create runner user
 RUN useradd -m runner && mkdir -p /actions-runner && chown runner:runner /actions-runner
