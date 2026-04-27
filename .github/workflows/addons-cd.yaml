@@ -1,3 +1,4 @@
+---
 name: Addons CD
 
 on:
@@ -74,4 +75,3 @@ jobs:
         	--set env[1].value=$PAT \
           -f ${GITHUB_WORKSPACE}/.helm-tmpl/values.yaml -f custom/gha-runner/.helm/values.yaml -f custom/gha-runner/.helm/wsl/values.yaml \
           gha-runner ${GITHUB_WORKSPACE}/.helm-tmpl
-        
