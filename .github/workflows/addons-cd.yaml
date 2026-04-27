@@ -29,8 +29,6 @@ jobs:
     - name: Addons Upgrade Install
       id: install_addons
       run: |
-        helm repo update
-
         cd addons/charts
 
         echo "Installing argo-rollouts..."
