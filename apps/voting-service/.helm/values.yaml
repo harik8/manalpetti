@@ -64,6 +64,16 @@ resources:
     cpu: 50m
     memory: 64Mi
 
+env:
+  - name: OTEL_TRACES_EXPORTER
+    value: console
+  - name: OTEL_METRICS_EXPORTER
+    value: console
+  - name: OTEL_LOGS_EXPORTER
+    value: console
+  - name: OTEL_SERVICE_NAME
+    value: voting-service
+
 sidecar:
   enabled: false
   name: nginx-exporter

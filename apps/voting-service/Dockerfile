@@ -1,11 +1,11 @@
-FROM golang:1.26.1-alpine AS build
+FROM python:3.13-slim
 WORKDIR /app
 
-COPY ./go.mod ./go.sum ./
-COPY . .
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN go build .
+COPY app.py .
 
 EXPOSE 8080
 
-CMD ["./voting-service"]
+CMD ["opentelemetry-instrument","python","app.py"]
