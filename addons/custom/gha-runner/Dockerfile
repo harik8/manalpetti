@@ -20,7 +20,6 @@ RUN apt-get update && \
         bash \
         libkrb5-3 \
         zlib1g \
-        wget \
         sudo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
