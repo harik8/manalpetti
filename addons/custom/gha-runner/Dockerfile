@@ -20,6 +20,7 @@ RUN apt-get update && \
         tar \
         bash \
         libkrb5-3 \
+        libicu74 \
         zlib1g \
         sudo && \
     apt-get clean && \
