@@ -9,9 +9,10 @@ ENV HELM_VERSION=4.1.4
 ENV HELM_ARCH=amd64
 ENV HELM_HASH=70b2c30a19da4db264dfd68c8a3664e05093a361cefd89572ffb36f8abfa3d09
 
+RUN add-apt-repository ppa:rmescandon/yq
+
 # Install dependencies
-RUN add-apt-repository ppa:rmescandon/yq && \
-    apt-get update && \
+RUN  apt-get update && \
     apt-get install -y --no-install-recommends \
         curl \
         ca-certificates \
