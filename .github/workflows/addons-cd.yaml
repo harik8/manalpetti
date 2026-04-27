@@ -20,7 +20,7 @@ on:
 jobs:
   CD:
     runs-on: self-hosted
-    timeout-minutes: 5
+    timeout-minutes: 1
 
     steps:
     - name: Checkout repository
@@ -29,8 +29,6 @@ jobs:
     - name: Addons Upgrade Install
       id: install_addons
       run: |
-        helm repo update
-
         cd addons/charts
 
         echo "Installing argo-rollouts..."
