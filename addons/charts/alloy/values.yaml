@@ -175,8 +175,8 @@ alloy:
       otelcol.exporter.otlp "tempo" {
           // Define the client for exporting.
           client {
-              // Send to the locally running Tempo instance, on port 4317 (OTLP gRPC).
-              endpoint = "http://tempo-cluster-distributor.tempo.svc.cluster.local:4317"
+              // Send to the locally running Tempo instance, on port 9095 (OTLP gRPC).
+              endpoint = "http://tempo-distributor.tempo.svc.cluster.local:9095"
               // Disable TLS for OTLP remote write.
               tls {
                   // The connection is insecure.
