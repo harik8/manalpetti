@@ -172,7 +172,7 @@ alloy:
 
       otelcol.exporter.otlp "default" {
         client {
-          endpoint = "tempo-distributor.tempo.svc.cluster.local:9095"
+          endpoint = "tempo-distributor.tempo.svc.cluster.local:4317"
         }
       }
 
