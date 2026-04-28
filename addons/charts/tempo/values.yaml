@@ -1,4 +1,14 @@
 ---
+traces:
+  otlp:
+    grpc:
+      enabled: true
+      receiverConfig: {}
+      port: 4317
+    http:
+      enabled: false
+      receiverConfig: {}
+
 tempo:
   overrides:
     defaults:
@@ -7,28 +17,6 @@ tempo:
           - service-graphs
           - span-metrics
           - local-blocks
-  otlp:
-    http:
-      # -- Enable Tempo to ingest Open Telemetry HTTP traces
-      enabled: false
-      # -- HTTP receiver advanced config
-      receiverConfig: {}
-    grpc:
-      # -- Enable Tempo to ingest Open Telemetry GRPC traces
-      enabled: true
-      # -- GRPC receiver advanced config
-      receiverConfig: {}
-      # -- Default OTLP gRPC port
-      port: 4317
 
-# Enable OTLP ingestion
-distributor:
-  receivers:
-    otlp:
-      protocols:
-        grpc: {}
-        http: {}
-
-# Persistence
 persistence:
   enabled: true
