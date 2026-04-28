@@ -8,14 +8,14 @@ on:
       - dev
     paths:
       - addons/charts/**
-      - addons/custom/**
+      - addons/custom/*/.helm/**
   pull_request:
     branches:
       - main
       - dev
     paths:
       - addons/charts/**
-      - addons/custom/**
+      - addons/custom/*/.helm/**
         
 jobs:
   CD:
