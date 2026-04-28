@@ -5,6 +5,10 @@ alloy:
       port: 4317
       targetPort: 4317
       protocol: TCP
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+      protocol: TCP
   configMap:
     content: |
       loki.write "default" {
@@ -150,41 +154,35 @@ alloy:
         }
       }
 
-      // Creates a receiver for OTLP gRPC.
-      // You can easily add receivers for other protocols by using the correct component
-      // from the reference list at: https://grafana.com/docs/alloy/latest/reference/components/
+      // OTLP receiver configuration
       otelcol.receiver.otlp "otlp_receiver" {
-        // Listen on all available bindable addresses on port 4317 (which is the
-        // default OTLP gRPC port) for the OTLP protocol.
         grpc {
           endpoint = "0.0.0.0:4317"
         }
 
-        // Output straight to the OTLP gRPC exporter. We would usually do some processing
-        // first, most likely batch processing, but for this example we pass it straight
-        // through.
+        http {
+          endpoint = "0.0.0.0:4318"
+
+          cors {
+            allowed_origins = ["*"]
+            allowed_headers = ["*"]
+            max_age         = 600
+          }
+        }
+
         output {
-          traces = [
-            otelcol.exporter.otlp.tempo.input,
-          ]
+          traces = [otelcol.exporter.otlp.tempo.input]
         }
       }
 
-      // Define an OTLP gRPC exporter to send all received traces to GET.
-      // The unique label 'tempo' is added to uniquely identify this exporter.
+      // OTLP exporter to Tempo
       otelcol.exporter.otlp "tempo" {
-          // Define the client for exporting.
-          client {
-              // Send to the locally running Tempo instance, on port 9095 (OTLP gRPC).
-              endpoint = "http://tempo-distributor.tempo.svc.cluster.local:9095"
-              // Disable TLS for OTLP remote write.
-              tls {
-                  // The connection is insecure.
-                  insecure = true
-                  // Do not verify TLS certificates when connecting.
-                  insecure_skip_verify = true
-              }
+        client {
+          endpoint = "tempo-distributor.tempo.svc.cluster.local:9095"
+          tls {
+            insecure = true
           }
+        }
       }
 
 # helm upgrade --install --atomic --create-namespace --namespace alloy --version 1.3.1 --values alloy-values.yaml alloy grafana/alloy
