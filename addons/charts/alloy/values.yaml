@@ -178,7 +178,7 @@ alloy:
       // OTLP exporter to Tempo
       otelcol.exporter.otlp "tempo" {
         client {
-          endpoint = "tempo-distributor.tempo.svc.cluster.local:9095"
+          endpoint = "tempo-distributor.tempo.svc.cluster.local:3200"
           tls {
             insecure = true
           }
