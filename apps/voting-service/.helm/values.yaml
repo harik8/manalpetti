@@ -66,11 +66,11 @@ resources:
 
 env:
   - name: OTEL_TRACES_EXPORTER
-    value: console
+    value: alloy.alloy.svc.cluster.local:4317
   - name: OTEL_METRICS_EXPORTER
-    value: console
+    value: alloy.alloy.svc.cluster.local:4317
   - name: OTEL_LOGS_EXPORTER
-    value: console
+    value: alloy.alloy.svc.cluster.local:4317
   - name: OTEL_SERVICE_NAME
     value: voting-service
 
