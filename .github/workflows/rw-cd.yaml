@@ -45,7 +45,6 @@ jobs:
       run: |
         sed -i "s/^name: .*/name: ${{ steps.set_app_name.outputs.app_name }}/" .helm-tmpl/Chart.yaml
         sed -i "s/^appVersion: .*/appVersion: ${{ inputs.tag }}/" .helm-tmpl/Chart.yaml
-        sed -i "s/^version: .*/version: ${{ inputs.tag }}/" .helm-tmpl/Chart.yaml
 
         helm upgrade --install --rollback-on-failure \
           --create-namespace \
