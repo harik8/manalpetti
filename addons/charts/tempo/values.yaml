@@ -1,0 +1,10 @@
+---
+tempo:      
+  # Enable service graphs and span metrics
+  overrides:
+    defaults:
+      metrics_generator:
+        processors: [service-graphs, span-metrics, local-blocks]
+
+persistence:
+  enabled: true

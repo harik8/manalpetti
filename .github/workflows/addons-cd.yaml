@@ -63,6 +63,10 @@ jobs:
         version=$(yq e '.dependencies[].version' ingress-haproxy/Chart.yaml)
         helm upgrade --install --rollback-on-failure --create-namespace --namespace ingress-haproxy --version $version --values ingress-haproxy/values.yaml ingress-haproxy haproxy/kubernetes-ingress
 
+        echo "Installing tempo..."
+        version=$(yq e '.dependencies[].version' tempo/Chart.yaml)
+        helm upgrade --install --rollback-on-failure --create-namespace --namespace tempo --version $version --values tempo/values.yaml tempo grafana/tempo-distributed
+
         echo "Installing gha-runner..."
         cd ..
         helm upgrade --install --rollback-on-failure \
