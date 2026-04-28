@@ -173,6 +173,9 @@ alloy:
       otelcol.exporter.otlp "default" {
         client {
           endpoint = "tempo-distributor.tempo.svc.cluster.local:4317"
+          tls {
+            insecure = true
+          }
         }
       }
 
