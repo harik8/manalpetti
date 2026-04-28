@@ -66,11 +66,15 @@ resources:
 
 env:
   - name: OTEL_TRACES_EXPORTER
-    value: console
+    value: otlp
   - name: OTEL_METRICS_EXPORTER
-    value: console
+    value: none
   - name: OTEL_LOGS_EXPORTER
-    value: console
+    value: none
+  - name: OTEL_EXPORTER_OTLP_PROTOCOL
+    value: grpc
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: http://alloy.alloy.svc.cluster.local:4317
   - name: OTEL_SERVICE_NAME
     value: voting-service
 
