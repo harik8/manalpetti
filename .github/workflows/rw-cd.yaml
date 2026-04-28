@@ -53,6 +53,7 @@ jobs:
 
         helm upgrade --install --rollback-on-failure \
           --create-namespace \
+          --force-conflicts \
           --namespace ${{ steps.set_app_name.outputs.app_name }} \
           --set image.repository=${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }} \
           --set image.tag=${{ inputs.tag }} \
