@@ -23,8 +23,6 @@ This is my break–learn–fix containerized sandbox environment with CI/CD pipe
 
 ## LAYER
 
-<div align="center">
-
 |  |  |  |
 |-------|-------|-------|
 | ![Web](https://img.shields.io/badge/Web-4CAF50?style=for-the-badge) | ![HAProxy](https://img.shields.io/badge/HAProxy-003545?style=for-the-badge&logo=haproxy&logoColor=white) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/haproxy.svg" width="40" height="40" alt="HAProxy"> |
