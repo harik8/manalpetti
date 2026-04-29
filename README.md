@@ -24,13 +24,39 @@ This is my break–learn–fix containerized sandbox environment with CI/CD pipe
 ## LAYER
 
 <div align="left">
-
-| Layer | Stack |
-|:-----:|:------|
-| ![Web](https://img.shields.io/badge/Web-4CAF50?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/haproxy.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> HAProxy |
-| ![App](https://img.shields.io/badge/App-2196F3?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/python.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Python |
-| ![DB](https://img.shields.io/badge/DB-9C27B0?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/postgresql.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> PostgreSQL |
-| ![Observability](https://img.shields.io/badge/Observability-FF9800?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prometheus.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Prometheus &nbsp; <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/grafana.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Grafana &nbsp; <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/loki.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Loki &nbsp; <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/tempo.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Tempo &nbsp; <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/kubernetes.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Metrics Server |
-| ![CI/CD](https://img.shields.io/badge/CI%2FCD-F44336?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> GitHub Actions &nbsp; <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/argo-cd.svg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;"> Argo Rollouts |
-
+<table>
+  <tr>
+    <th>Layer</th>
+    <th>Stack</th>
+  </tr>
+  <tr>
+    <td>Web</td>
+    <td><img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/haproxy.svg" width="24" height="24" style="vertical-align: middle;"> HAProxy</td>
+  </tr>
+  <tr>
+    <td>App</td>
+    <td><img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/python.svg" width="24" height="24" style="vertical-align: middle;"> Python</td>
+  </tr>
+  <tr>
+    <td>DB</td>
+    <td><img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/postgresql.svg" width="24" height="24" style="vertical-align: middle;"> PostgreSQL</td>
+  </tr>
+  <tr>
+    <td>Observability</td>
+    <td>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prometheus.svg" width="24" height="24" style="vertical-align: middle;"> Prometheus<br>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/grafana.svg" width="24" height="24" style="vertical-align: middle;"> Grafana<br>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/loki.svg" width="24" height="24" style="vertical-align: middle;"> Loki<br>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/tempo.svg" width="24" height="24" style="vertical-align: middle;"> Tempo<br>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/kubernetes.svg" width="24" height="24" style="vertical-align: middle;"> Metrics Server
+    </td>
+  </tr>
+  <tr>
+    <td>CI/CD</td>
+    <td>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github.svg" width="24" height="24" style="vertical-align: middle;"> GitHub Actions<br>
+      <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/argo-cd.svg" width="24" height="24" style="vertical-align: middle;"> Argo Rollouts
+    </td>
+  </tr>
+</table>
 </div>
