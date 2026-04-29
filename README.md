@@ -23,14 +23,10 @@ This is my break–learn–fix containerized sandbox environment with CI/CD pipe
 
 ## LAYER
 
-<div align="left">
-
 | Layer | Stack |
 |:-----:|:------|
-| ![Web](https://img.shields.io/badge/Web-4CAF50?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/haproxy.svg" width="24" height="24"> ![HAProxy](https://img.shields.io/badge/HAProxy-003545?style=flat-square) |
-| ![App](https://img.shields.io/badge/App-2196F3?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/python.svg" width="24" height="24"> ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square) |
-| ![DB](https://img.shields.io/badge/DB-9C27B0?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/postgresql.svg" width="24" height="24"> ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square) |
-| ![Observability](https://img.shields.io/badge/Observability-FF9800?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prometheus.svg" width="24" height="24"> ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square) <br> <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/grafana.svg" width="24" height="24"> ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square) <br> <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/loki.svg" width="24" height="24"> ![Loki](https://img.shields.io/badge/Loki-0A1E2C?style=flat-square) <br> <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/tempo.svg" width="24" height="24"> ![Tempo](https://img.shields.io/badge/Tempo-1F1F1F?style=flat-square) <br> <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/kubernetes.svg" width="24" height="24"> ![Metrics Server](https://img.shields.io/badge/Metrics_Server-326CE5?style=flat-square) |
-| ![CI/CD](https://img.shields.io/badge/CI%2FCD-F44336?style=for-the-badge) | <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github.svg" width="24" height="24"> ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square) <br> <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/argo-cd.svg" width="24" height="24"> ![Argo Rollouts](https://img.shields.io/badge/Argo_Rollouts-EF7B4D?style=flat-square) |
-
-</div>
+| ![Web](https://img.shields.io/badge/Web-4CAF50?style=for-the-badge) | ![HAProxy](https://img.shields.io/badge/HAProxy-003545?style=flat-square&logo=haproxy) |
+| ![App](https://img.shields.io/badge/App-2196F3?style=for-the-badge) | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python) |
+| ![DB](https://img.shields.io/badge/DB-9C27B0?style=for-the-badge) | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql) |
+| ![Observability](https://img.shields.io/badge/Observability-FF9800?style=for-the-badge) | ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus)<br>![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana)<br>![Loki](https://img.shields.io/badge/Loki-0A1E2C?style=flat-square)<br>![Tempo](https://img.shields.io/badge/Tempo-1F1F1F?style=flat-square)<br>![Metrics Server](https://img.shields.io/badge/Metrics_Server-326CE5?style=flat-square&logo=kubernetes) |
+| ![CI/CD](https://img.shields.io/badge/CI%2FCD-F44336?style=for-the-badge) | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=github)<br>![Argo Rollouts](https://img.shields.io/badge/Argo_Rollouts-EF7B4D?style=flat-square) |
