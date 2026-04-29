@@ -7,11 +7,11 @@ datasources:
    datasources:
    - name: Prometheus
      type: prometheus
-     url: http://prometheus-server.prometheus.svc.cluster.local.
+     url: http://prometheus-server.prometheus.svc.cluster.local
      isDefault: true
    - name: Loki
      type: loki
-     url: http://loki-gateway.loki.svc.cluster.local.
+     url: http://loki-gateway.loki.svc.cluster.local
      isDefault: false
    - name: Tempo
      type: tempo
