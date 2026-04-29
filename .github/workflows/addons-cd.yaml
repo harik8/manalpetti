@@ -41,11 +41,11 @@ jobs:
 
         echo "Installing grafana..."
         version=$(yq e '.dependencies[].version' grafana/Chart.yaml)
-        helm upgrade --install --rollback-on-failure --force-conflicts --create-namespace --namespace grafana --version $version --values grafana/values.yaml grafana grafana/grafana
+        helm upgrade --install --rollback-on-failure --force-conflicts --create-namespace --namespace grafana --version $version --values grafana/values.yaml grafana alloy/grafana
 
         echo "Installing loki..."
         version=$(yq e '.dependencies[].version' loki/Chart.yaml)
-        helm upgrade --install --rollback-on-failure --force-conflicts --create-namespace --namespace loki --version $version --values loki/values.yaml loki grafana/loki
+        helm upgrade --install --rollback-on-failure --force-conflicts --create-namespace --namespace loki --version $version --values loki/values.yaml loki alloy/loki
 
         echo "Installing metrics-server..."
         version=$(yq e '.dependencies[].version' metrics-server/Chart.yaml)
