@@ -25,4 +25,24 @@ ingress:
   enabled: true
   ingressClassName: public
   hosts:
-    - grafana.sb
+    - grafana.wsl.localhost
+    
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: 'dashboards'
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    k8s-cluster-dashboard:
+      gnetId: 16674
+      revision: 1
+      datasource: Prometheus
