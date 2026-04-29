@@ -7,11 +7,11 @@ datasources:
    datasources:
    - name: Prometheus
      type: prometheus
-     url: http://prometheus-server.prometheus.svc.cluster.local.
+     url: http://prometheus-server.prometheus.svc.cluster.local
      isDefault: true
    - name: Loki
      type: loki
-     url: http://loki-gateway.loki.svc.cluster.local.
+     url: http://loki-gateway.loki.svc.cluster.local
      isDefault: false
    - name: Tempo
      type: tempo
@@ -26,7 +26,7 @@ ingress:
   ingressClassName: public
   hosts:
     - grafana.wsl.localhost
-    
+
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
@@ -45,4 +45,4 @@ dashboards:
     k8s-cluster-dashboard:
       gnetId: 16674
       revision: 1
-      datasource: Prometheus
+      datasource: Prometheus   
