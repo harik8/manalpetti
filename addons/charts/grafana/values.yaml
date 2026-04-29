@@ -27,22 +27,3 @@ ingress:
   hosts:
     - grafana.wsl.localhost
     
-# dashboardProviders:
-#   dashboardproviders.yaml:
-#     apiVersion: 1
-#     providers:
-#     - name: 'default'
-#       orgId: 1
-#       folder: 'cluster'
-#       type: file
-#       disableDeletion: false
-#       editable: true
-#       options:
-#         path: /var/lib/grafana/dashboards/default
-
-# dashboards:
-#   default:
-#     k8s-cluster-dashboard:
-#       gnetId: 16674
-#       revision: 1
-#       datasource: Prometheus
