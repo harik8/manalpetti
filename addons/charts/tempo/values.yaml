@@ -26,3 +26,6 @@ ingester:
   persistence:
     enabled: true
     size: 5Gi
+
+minio:
+  enabled: true
