@@ -34,8 +34,8 @@ storage:
   trace:
     backend: s3
     s3:
-      bucket: tempo-traces
+      bucket: traces
       endpoint: tempo-minio:9000
-      access_key: tempo
+      access_key: grafana-tempo
       secret_key: supersecret
       insecure: true
