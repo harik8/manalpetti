@@ -1,13 +1,13 @@
 ---
-traces:
-  otlp:
-    grpc:
-      enabled: true
-      receiverConfig: {}
-      port: 4317
-    http:
-      enabled: false
-      receiverConfig: {}
+# traces:
+#   otlp:
+#     grpc:
+#       enabled: true
+#       receiverConfig: {}
+#       port: 4317
+#     http:
+#       enabled: false
+#       receiverConfig: {}
 
 # tempo:
 #   overrides:
@@ -46,39 +46,31 @@ traces:
 #       flush_to_storage: true
 
 # --- Enable OTLP ingestion (CRITICAL) ---
-distributor:
-  receivers:
-    otlp:
-      protocols:
-        grpc:
-        http:
+# distributor:
+#   receivers:
+#     otlp:
+#       protocols:
+#         grpc:
+#         http:
 
 tempo:
-  compactor:
-    compaction:
-      block_retention: 24h
   ingester:
-    replicas: 2
-    persistence:
-      enabled: true
-      size: 5Gi
     max_block_duration: 10080m
   storage:
     trace:
       backend: local
 
-  overrides:
-    defaults:
-      metrics_generator:
-        processors:
-          - service-graphs
-          - span-metrics
-          - local-blocks
-
   metrics_generator:
     processor:
       local_blocks:
         flush_to_storage: true
+    overrides:
+      defaults:
+        metrics_generator:
+          processors:
+            - service-graphs
+            - span-metrics
+            - local-blocks
 
 persistence:
   enabled: true
