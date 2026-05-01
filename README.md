@@ -19,7 +19,7 @@ Manal Petti
 **Manal Petti (மணல் பெட்டி)** means Sandbox in Tamil.
 Manal (மணல்) - sand, and Petti (பெட்டி) - box or container.
 
-This is my break–learn–fix containerized sandbox environment with CI/CD pipelines, Kubernetes cluster addons, applications, and observability stack.
+It’s a dedicated space where I experiment with Kubernetes, CI/CD pipelines, and observability stacks in a containerized environment.
 
 ## LAYER
 
