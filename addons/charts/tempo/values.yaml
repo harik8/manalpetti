@@ -53,16 +53,19 @@ distributor:
         grpc:
         http:
 
-# --- Storage (CRITICAL) ---
-storage:
-  trace:
-    backend: local
-
-# --- Core Tempo config ---
 tempo:
   compactor:
     compaction:
       block_retention: 24h
+  ingester:
+    replicas: 2
+    persistence:
+      enabled: true
+      size: 5Gi
+    max_block_duration: 10080m
+  storage:
+    trace:
+      backend: local
 
   overrides:
     defaults:
@@ -72,20 +75,11 @@ tempo:
           - span-metrics
           - local-blocks
 
-# --- Persistence (PVCs) ---
+  metrics_generator:
+    processor:
+      local_blocks:
+        flush_to_storage: true
+
 persistence:
   enabled: true
   size: 10Gi
-
-# --- Ingester scaling ---
-ingester:
-  replicas: 2
-  persistence:
-    enabled: true
-    size: 5Gi
-
-# --- Metrics generator ---
-metrics_generator:
-  processor:
-    local_blocks:
-      flush_to_storage: true
