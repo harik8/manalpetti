@@ -57,16 +57,9 @@ distributor:
 storage:
   trace:
     backend: local
-    local:
-      path: /var/tempo/traces
 
 # --- Core Tempo config ---
 tempo:
-  ingester:
-    wal:
-      enabled: true
-      dir: /var/tempo/wal
-
   compactor:
     compaction:
       block_retention: 24h
