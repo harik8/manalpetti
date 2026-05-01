@@ -1,22 +1,23 @@
 ---
-traces:
-  otlp:
-    grpc:
-      enabled: true
-      receiverConfig: {}
-      port: 4317
-    http:
-      enabled: false
-      receiverConfig: {}
-
 tempo:
-  overrides:
-    defaults:
-      metrics_generator:
-        processors:
-          - service-graphs
-          - span-metrics
-          - local-blocks
+  ingester:
+    max_block_duration: 10080m
+  storage:
+    trace:
+      backend: local
+
+  metrics_generator:
+    processor:
+      local_blocks:
+        flush_to_storage: true
+    overrides:
+      defaults:
+        metrics_generator:
+          processors:
+            - service-graphs
+            - span-metrics
+            - local-blocks
 
 persistence:
   enabled: true
+  size: 10Gi

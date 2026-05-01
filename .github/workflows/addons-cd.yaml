@@ -65,7 +65,7 @@ jobs:
 
         echo "Installing tempo..."
         version=$(yq e '.dependencies[].version' tempo/Chart.yaml)
-        helm upgrade --install --rollback-on-failure --force-conflicts --create-namespace --namespace tempo --version $version --values tempo/values.yaml tempo grafana/tempo-distributed
+        helm upgrade --install --rollback-on-failure --force-conflicts --create-namespace --namespace tempo --version $version --values tempo/values.yaml tempo grafana/tempo
 
         echo "Installing gha-runner..."
         cd ..
