@@ -1,46 +1,26 @@
 ---
-traces:
-  otlp:
-    grpc:
-      enabled: true
-      receiverConfig: {}
-      port: 4317
-    http:
-      enabled: false
-      receiverConfig: {}
+storage:
+  trace:
+    backend: local
+    local:
+      path: /var/tempo/traces
 
 tempo:
-  overrides:
-    defaults:
-      metrics_generator:
-        processors:
-          - service-graphs
-          - span-metrics
-          - local-blocks
+  ingester:
+    wal:
+      enabled: true
+      dir: /var/tempo/wal
+
+  compactor:
+    compaction:
+      block_retention: 24h
 
 persistence:
   enabled: true
+  size: 10Gi
 
 ingester:
   replicas: 2
   persistence:
     enabled: true
-    size: 1Gi
-
-# minio:
-#   enabled: true
-
-# storage:
-#   trace:
-#     backend: s3
-#     s3:
-#       bucket: tempo-traces
-#       endpoint: tempo-minio:9000
-#       access_key: grafana-tempo
-#       secret_key: supersecret
-#       insecure: true
-
-metrics_generator:
-  processor:
-    local_blocks:
-      flush_to_storage: true
+    size: 5Gi
