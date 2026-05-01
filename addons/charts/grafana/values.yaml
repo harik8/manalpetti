@@ -15,7 +15,7 @@ datasources:
      isDefault: false
    - name: Tempo
      type: tempo
-     url: http://tempo-query-frontend.tempo.svc.cluster.local:3200
+     url: http://tempo.tempo.svc.cluster.local:3200
      isDefault: false 
      
 persistence:
