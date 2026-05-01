@@ -22,7 +22,7 @@ persistence:
   enabled: true
 
 ingester:
-  replicas: 2
+  replicas: 1
   persistence:
     enabled: true
     size: 5Gi
@@ -39,3 +39,8 @@ storage:
       access_key: grafana-tempo
       secret_key: supersecret
       insecure: true
+
+metrics_generator:
+  processor:
+    local_blocks:
+      flush_to_storage: true
