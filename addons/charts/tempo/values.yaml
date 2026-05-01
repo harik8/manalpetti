@@ -1,7 +1,7 @@
 ---
 tempo:
-  # ingester:
-  #   max_block_duration: 10080m
+  ingester:
+    max_block_duration: 10080m
   storage:
     trace:
       backend: local
