@@ -33,7 +33,7 @@ jobs:
         apps: ${{ fromJson(inputs.apps_modified) }}
     steps:
     - name: Git clone the repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Set App Name
       id: set_app_name
