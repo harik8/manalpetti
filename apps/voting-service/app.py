@@ -1,13 +1,18 @@
 import os
 import logging
-from flask import Flask, abort
+from flask import Flask, abort, render_template
 import psycopg2
 
 logging.basicConfig(level=logging.INFO)
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 conn = psycopg2.connect(os.environ["CNPG_URI"])
 logging.info("DB connection is established")
+
+
+@app.get("/")
+def index():
+    return render_template("index.html")
 
 
 @app.get("/ping")
