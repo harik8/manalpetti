@@ -4,7 +4,7 @@ from flask import Flask, abort, render_template
 import psycopg2
 
 logging.basicConfig(level=logging.INFO)
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
 
 conn = psycopg2.connect(os.environ["CNPG_URI"])
 logging.info("DB connection is established")
