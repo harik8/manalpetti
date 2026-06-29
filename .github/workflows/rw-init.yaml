@@ -50,6 +50,9 @@ jobs:
       run: |
         apps_modified="${{ steps.get_apps_modified.outputs.apps_modified }}"
 
+        # Compact JSON to remove whitespace
+        apps_modified=$(echo "$apps_modified" | jq -c .)
+
         echo "$apps_modified" | jq -r '.[]' | while read app; do
           echo "Processing app: $app"
           helm_dir="${app}/.helm"
