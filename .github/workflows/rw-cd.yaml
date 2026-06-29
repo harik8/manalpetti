@@ -14,7 +14,7 @@ on:
       stage:
         type: string
         description: Stage to deploy
-        default: wsl
+        default: self-hosted
       tag:
         type: string
         description: Docker image tag
