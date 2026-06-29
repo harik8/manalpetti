@@ -48,10 +48,10 @@ jobs:
     - name: Get Clusters
       id: get_clusters
       run: |
-        echo "${{ steps.get_apps_modified.outputs.apps_modified }}"
+        # echo "${{ steps.get_apps_modified.outputs.apps_modified }}"
         for i in "${{ steps.get_apps_modified.outputs.apps_modified }}"
         do
           echo $i
-          ls -lah $i
+          # ls -lah $i
         done
      
