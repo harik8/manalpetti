@@ -54,6 +54,8 @@ jobs:
     
     - name: Get Clusters
       id: get_clusters
+      shell: python
       run: |
-        python -c "import sys; print(sys.version)"
+        import os, sys
+        print(sys.version)
      
