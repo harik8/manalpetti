@@ -57,5 +57,5 @@ jobs:
       shell: python
       run: |
         import os, sys
-        for app in ${{ steps.get_apps_modified.outputs.apps_modified }}
+        for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
           print (app)     
