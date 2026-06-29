@@ -56,8 +56,7 @@ jobs:
       id: get_clusters
       shell: python
       run: |
-        import os, sys
+        import os
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
-          print (app)
-          c=os.listdir(app)
-          print(c)     
+          dirs=os.listdir(app/.helm)
+          print(dirs)     
