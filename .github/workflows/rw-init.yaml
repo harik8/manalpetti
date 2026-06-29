@@ -48,8 +48,15 @@ jobs:
     - name: Get Clusters
       id: get_clusters
       run: |
-        for i in "${{ steps.get_apps_modified.outputs.apps_modified }}"
-        do
-          echo $i | jq .
+        apps_modified="${{ steps.get_apps_modified.outputs.apps_modified }}"
+
+        echo "$apps_modified" | jq -r '.[]' | while read app; do
+          echo "Processing app: $app"
+          helm_dir="${app}/.helm"
+          if [ -d "$helm_dir" ]; then
+            for stage in $(ls -d "$helm_dir"/*/ 2>/dev/null | xargs -n1 basename); do
+              echo "  Found stage: $stage"
+            done
+          fi
         done
      
