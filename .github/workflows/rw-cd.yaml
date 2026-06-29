@@ -14,7 +14,7 @@ on:
       stage:
         type: string
         description: Stage to deploy
-        default: wsl
+        default: [wsl]
       tag:
         type: string
         description: Docker image tag
@@ -25,7 +25,8 @@ on:
         
 jobs:
   CD:
-    runs-on: self-hosted
+    runs-on: ${{ inputs.stage }}
+    fail-fast: false
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
