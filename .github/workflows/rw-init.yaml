@@ -43,21 +43,18 @@ jobs:
 
         echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
 
+    - name: Set up Python
+      # This is the version of the action for setting up Python, not the Python version.
+      uses: actions/setup-python@v5
+      with:
+          # Semantic version range syntax or exact version of a Python version
+        python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+        architecture: 'x64'
+    
     - name: Get Clusters
       id: get_clusters
       run: |
-        apps_modified="${{ steps.get_apps_modified.outputs.apps_modified }}"
-
-        # Compact JSON to remove whitespace
-        apps_modified=$(echo "$apps_modified" | jq -c .)
-
-        echo "$apps_modified" | jq -r '.[]' | while read app; do
-          echo "Processing app: $app"
-          helm_dir="${app}/.helm"
-          if [ -d "$helm_dir" ]; then
-            for stage in $(ls -d "$helm_dir"/*/ 2>/dev/null | xargs -n1 basename); do
-              echo "  Found stage: $stage"
-            done
-          fi
-        done
+        import os, sys
+        print(sys.version)
      
