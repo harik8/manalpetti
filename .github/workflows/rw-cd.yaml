@@ -26,10 +26,10 @@ on:
 jobs:
   CD:
     runs-on: ${{ inputs.stage }}
-    fail-fast: false
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
+      fail-fast: false
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
     steps:
