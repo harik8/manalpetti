@@ -38,12 +38,10 @@ jobs:
           | cut -d'/' -f1-${{ inputs.apps_path_depth }} \
           | grep -E "${{ inputs.apps_path }}" \
           | sort -u \
-          | jq -R . | jq -s .)
-        echo $apps_modified
+          | jq -R . | jq -s -c .)
+        echo "$apps_modified"
 
-        echo "apps_modified<<EOF" >> $GITHUB_OUTPUT
-        echo "$apps_modified" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
+        echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
 
     - name: Get Clusters
       id: get_clusters
