@@ -30,12 +30,6 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Get Clusters
-      id: get_clusters
-      run: |
-        pwd
-        ls -lah .
-
     - name: Get Apps Modified
       id: get_apps_modified
       run: |
@@ -55,3 +49,5 @@ jobs:
       id: get_clusters
       run: |
         echo ${{ steps.get_apps_modified.outputs.apps_modified }}
+        pwd
+        ls -lah .
