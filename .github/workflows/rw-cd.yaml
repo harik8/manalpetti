@@ -14,7 +14,7 @@ on:
       stage:
         type: string
         description: Stage to deploy
-        default: ["self-hosted"]
+        default: '["self-hosted"]'
       tag:
         type: string
         description: Docker image tag
@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
-        stage: ${{ fromJson(inputs.stage) }}
+        runner: ${{ fromJson(inputs.stage) }}
     runs-on: ${{ matrix.stage }}
     steps:
     - name: Git clone the repository
