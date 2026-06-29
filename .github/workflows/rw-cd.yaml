@@ -41,7 +41,7 @@ jobs:
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
         # runner: ${{ fromJson(inputs.stage) }}
-    runs-on: ${{ matrix.stage }}
+    # runs-on: ${{ matrix.stage }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
