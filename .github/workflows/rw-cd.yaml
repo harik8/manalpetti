@@ -14,7 +14,7 @@ on:
       stage:
         type: string
         description: Stage to deploy
-        default: '["self-hosted"]'
+        default: ["self-hosted"]
       tag:
         type: string
         description: Docker image tag
