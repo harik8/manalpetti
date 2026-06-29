@@ -59,4 +59,5 @@ jobs:
         import os, sys
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
           print (app)
-          os.listdir(app)     
+          c=os.listdir(app)
+          print(c)     
