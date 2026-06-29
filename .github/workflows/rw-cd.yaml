@@ -24,14 +24,21 @@ on:
         required: true
         
 jobs:
+  # PRE_CD:
+  #   runs-on: ubuntu-slim
+  #   steps:
+
+
   CD:
-    runs-on: ${{ inputs.stage }}
+    # runs-on: ${{ inputs.stage }}
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       fail-fast: false
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
+        stage: ${{ inputs.stage }}
+    runs-on: ${{ matrix.stage }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
