@@ -48,5 +48,5 @@ jobs:
     - name: Get Clusters
       id: get_clusters
       run: |
-        echo ${{ steps.get_apps_modified.outputs.apps_modified }}
-        echo ""        
+        echo "${{ steps.get_apps_modified.outputs.apps_modified }}"
+        # echo ""        
