@@ -32,11 +32,11 @@ jobs:
   #   secrets:
   #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  CD:
-    needs: [INIT]
-    uses: ./.github/workflows/rw-cd.yaml
-    with:
-      apps_modified: ${{ needs.INIT.outputs.apps_modified }}
-      tag: feature-multi_cluster_deployment-34371
-    secrets:
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  # CD:
+  #   needs: [INIT]
+  #   uses: ./.github/workflows/rw-cd.yaml
+  #   with:
+  #     apps_modified: ${{ needs.INIT.outputs.apps_modified }}
+  #     tag: feature-multi_cluster_deployment-34371
+  #   secrets:
+  #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
