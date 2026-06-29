@@ -14,7 +14,11 @@ on:
       stage:
         type: string
         description: Stage to deploy
-        default: '["self-hosted"]'
+        default: wsl
+      clusters:
+        type: string
+        description: List of Clusters to deploy
+        default: wsl
       tag:
         type: string
         description: Docker image tag
@@ -27,17 +31,16 @@ jobs:
   # PRE_CD:
   #   runs-on: ubuntu-slim
   #   steps:
-
-
   CD:
     # runs-on: ${{ inputs.stage }}
+    runs-on: self-hosted
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       fail-fast: false
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
-        runner: ${{ fromJson(inputs.stage) }}
+        # runner: ${{ fromJson(inputs.stage) }}
     runs-on: ${{ matrix.stage }}
     steps:
     - name: Git clone the repository

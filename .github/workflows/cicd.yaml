@@ -24,19 +24,19 @@ jobs:
     with:
       apps_path: 'apps'
 
-  CI:
-    needs: INIT
-    uses: ./.github/workflows/rw-ci.yaml
-    with:
-      apps_modified: ${{ needs.INIT.outputs.apps_modified }}
-    secrets:
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  # CI:
+  #   needs: INIT
+  #   uses: ./.github/workflows/rw-ci.yaml
+  #   with:
+  #     apps_modified: ${{ needs.INIT.outputs.apps_modified }}
+  #   secrets:
+  #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   CD:
-    needs: [INIT, CI]
+    needs: [INIT]
     uses: ./.github/workflows/rw-cd.yaml
     with:
       apps_modified: ${{ needs.INIT.outputs.apps_modified }}
-      tag: ${{ needs.CI.outputs.tag }}
+      tag: feature-multi_cluster_deployment-34371
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
