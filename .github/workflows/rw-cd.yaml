@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
-        stage: ${{ inputs.stage }}
+        stage: ${{ fromJson(inputs.stage) }}
     runs-on: ${{ matrix.stage }}
     steps:
     - name: Git clone the repository
