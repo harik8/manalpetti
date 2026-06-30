@@ -41,7 +41,7 @@ jobs:
     - name: Set Stage
       id: set_stage
       run: |
-        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+        if [ "${{ github.event.pull_request.base.ref || github.ref_name }}" == "main" ]; then
           stage=prod
         else
           stage=test
