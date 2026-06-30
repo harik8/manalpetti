@@ -15,10 +15,10 @@ on:
         type: string
         description: Stage to deploy
         default: wsl
-      clusters:
+      matrix:
         type: string
-        description: List of Clusters to deploy
-        default: wsl
+        description: Flat list of {app, cluster} pairs for the CD matrix
+        required: true
       tag:
         type: string
         description: Docker image tag
@@ -28,21 +28,14 @@ on:
         required: true
         
 jobs:
-  # PRE_CD:
-  #   runs-on: ubuntu-slim
-  #   steps:
   CD:
-    # runs-on: ${{ inputs.stage }}
-    # runs-on: self-hosted
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       fail-fast: false
       matrix:
-        apps: ${{ fromJson(inputs.apps_modified) }}
-        clustersl: ${{ fromJson(inputs.clusters)["${{ matrix.apps }}"] }}
-        # runner: ${{ fromJson(inputs.stage) }}
-    runs-on: ${{ matrix.clusterl }}
+        include: ${{ fromJson(inputs.matrix) }}
+    runs-on: ${{ matrix.cluster }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
@@ -50,7 +43,7 @@ jobs:
     - name: Set App Name
       id: set_app_name
       run: |
-        app_name=$(echo "${{ matrix.apps }}" | cut -f${{ inputs.apps_path_depth }} -d '/')
+        app_name=$(echo "${{ matrix.app }}" | cut -f${{ inputs.apps_path_depth }} -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Deploy
@@ -64,5 +57,5 @@ jobs:
           --namespace ${{ steps.set_app_name.outputs.app_name }} \
           --set image.repository=${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }} \
           --set image.tag=${{ inputs.tag }} \
-          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/${{ inputs.stage }}/values.yaml \
+          -f .helm-tmpl/values.yaml -f ${{ matrix.app }}/.helm/values.yaml -f ${{ matrix.app }}/.helm/${{ matrix.cluster }}/values.yaml \
           ${{ steps.set_app_name.outputs.app_name }} .helm-tmpl
