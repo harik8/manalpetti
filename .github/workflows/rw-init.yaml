@@ -68,4 +68,4 @@ jobs:
 
     - name: print
       run: |
-        echo "${{ steps.get_clusters.output.clusters }}"
+        echo "${{ steps.get_clusters.outputs.clusters }}"
