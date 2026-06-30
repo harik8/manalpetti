@@ -34,7 +34,7 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Set stage
+    - name: Set Stage
       id: set_stage
       run: |
         if [ "${{ github.ref }}" == "refs/heads/main" ]; then
