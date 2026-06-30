@@ -10,3 +10,4 @@ COPY templates/ templates/
 EXPOSE 8080
 
 CMD ["opentelemetry-instrument","python","app.py"]
+

@@ -15,14 +15,18 @@ on:
         required: false
     outputs:
       apps_modified:
-        description:  List of applications modified in the last commit
+        description: List of applications modified in the last commit
         value: ${{ jobs.INIT.outputs.apps_modified }}
+      clusters:
+        description: Flat list of {app, cluster} pairs for the CD matrix
+        value: ${{ jobs.INIT.outputs.clusters }}
 
 jobs:
   INIT:
     runs-on: ubuntu-slim
     outputs:
-      apps_modified:  ${{ steps.get_apps_modified.outputs.apps_modified }}
+      apps_modified: ${{ steps.get_apps_modified.outputs.apps_modified }}
+      clusters: ${{ steps.get_clusters.outputs.clusters }}
 
     steps:
     - name: Checkout repository
@@ -38,9 +42,29 @@ jobs:
           | cut -d'/' -f1-${{ inputs.apps_path_depth }} \
           | grep -E "${{ inputs.apps_path }}" \
           | sort -u \
-          | jq -R . | jq -s .)
-        echo $apps_modified
+          | jq -R . | jq -s -c .)
+        echo "$apps_modified"
+        echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
+    
+    - name: Get Clusters
+      id: get_clusters
+      shell: python
+      run: |
+        import os, json
 
-        echo "apps_modified<<EOF" >> $GITHUB_OUTPUT
-        echo "$apps_modified" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
+        clusters_map = {}
+        for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
+            dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
+            clusters_map[app] = dirs
+
+        print(clusters_map)
+
+        clusters = []
+        for app, cluster_list in clusters_map.items():
+            for cluster in cluster_list:
+                clusters.append({"app": app, "cluster": cluster})
+
+        print(json.dumps(clusters, indent=2))
+
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
+            fd.write(f'clusters={json.dumps(clusters)}\n')

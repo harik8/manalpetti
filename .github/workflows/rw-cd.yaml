@@ -11,10 +11,10 @@ on:
         description:  Depth level of apps within apps_path (e.g., 2 for apps/*, 3 for apps/*/*)
         default: 2
         required: false
-      stage:
+      clusters:
         type: string
-        description: Stage to deploy
-        default: wsl
+        description: Flat list of {app, cluster} pairs for the CD matrix
+        required: true
       tag:
         type: string
         description: Docker image tag
@@ -25,12 +25,15 @@ on:
         
 jobs:
   CD:
-    runs-on: self-hosted
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
+    timeout-minutes: 5
     strategy:
+      fail-fast: false
+      max-parallel: 2 
       matrix:
-        apps: ${{ fromJson(inputs.apps_modified) }}
+        include: ${{ fromJson(inputs.clusters) }}
+    runs-on: ${{ matrix.cluster }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
@@ -38,7 +41,7 @@ jobs:
     - name: Set App Name
       id: set_app_name
       run: |
-        app_name=$(echo "${{ matrix.apps }}" | cut -f${{ inputs.apps_path_depth }} -d '/')
+        app_name=$(echo "${{ matrix.app }}" | cut -f${{ inputs.apps_path_depth }} -d '/')
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Deploy
@@ -52,5 +55,5 @@ jobs:
           --namespace ${{ steps.set_app_name.outputs.app_name }} \
           --set image.repository=${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }} \
           --set image.tag=${{ inputs.tag }} \
-          -f .helm-tmpl/values.yaml -f ${{ matrix.apps }}/.helm/values.yaml -f ${{ matrix.apps }}/.helm/${{ inputs.stage }}/values.yaml \
+          -f .helm-tmpl/values.yaml -f ${{ matrix.app }}/.helm/values.yaml -f ${{ matrix.app }}/.helm/${{ matrix.cluster }}/values.yaml \
           ${{ steps.set_app_name.outputs.app_name }} .helm-tmpl
