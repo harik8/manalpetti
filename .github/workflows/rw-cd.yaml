@@ -11,10 +11,6 @@ on:
         description:  Depth level of apps within apps_path (e.g., 2 for apps/*, 3 for apps/*/*)
         default: 2
         required: false
-      stage:
-        type: string
-        description: Stage to deploy
-        default: wsl
       clusters:
         type: string
         description: Flat list of {app, cluster} pairs for the CD matrix
@@ -31,9 +27,9 @@ jobs:
   CD:
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
+    timeout-minutes: 5
     strategy:
-      fail-fast: false
-      
+      fail-fast: false 
       matrix:
         include: ${{ fromJson(inputs.clusters) }}
     runs-on: ${{ matrix.cluster }}
