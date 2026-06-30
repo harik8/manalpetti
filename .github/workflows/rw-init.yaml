@@ -46,15 +46,13 @@ jobs:
         echo "$apps_modified"
         echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
     
-    - name: Get Clusters
-      id: get_clusters
+    - name: Set Clusters
+      id: set_clusters
       shell: python
       env:
-        PR_LABELS: ${{ join(github.event.pull_request.labels.cd-skip*.name, ',') }}
+        PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
       run: |
         import os, json
-
-        print(os.environ.get('PR_LABELS'))
 
         labels = os.environ.get('PR_LABELS', '').split(',')
         skip_clusters = [l.replace('cd-skipcluster:', '').strip() for l in labels if l.startswith('cd-skipcluster:')]
