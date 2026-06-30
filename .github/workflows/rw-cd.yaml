@@ -33,8 +33,6 @@ jobs:
       max-parallel: 2 
       matrix:
         include: ${{ fromJson(inputs.clusters) }}
-        exclude:
-          cluster: eks
     runs-on: ${{ matrix.cluster }}
     concurrency:
       group: cd-${{ matrix.cluster }}-${{ matrix.app }}

@@ -52,6 +52,10 @@ jobs:
       run: |
         import os, json
 
+        labels = '${{ join(github.event.pull_request.labels.*.name, ",") }}'
+
+        print(labels)
+
         clusters_map = {}
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
             dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
