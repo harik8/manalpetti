@@ -34,9 +34,6 @@ jobs:
       matrix:
         include: ${{ fromJson(inputs.clusters) }}
     runs-on: ${{ matrix.cluster }}
-    concurrency:
-      group: cd-${{ matrix.cluster }}-${{ matrix.app }}
-      cancel-in-progress: true
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
