@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-slim
     outputs:
       apps_modified: ${{ steps.get_apps_modified.outputs.apps_modified }}
-      matrix: ${{ steps.build_matrix.outputs.matrix }}
+      matrix: ${{ steps.get_clusters.outputs.matrix }}
 
     steps:
     - name: Checkout repository
@@ -60,33 +60,27 @@ jobs:
       id: get_clusters
       shell: python
       run: |
-        import os
-        import json
-        clusters = {}
-        for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
-          dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
-          clusters[app] = dirs
-          print(clusters)
-        with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
-          fd.write(f'clusters={json.dumps(clusters)}\n')
-
-    - name: Build Matrix
-      id: build_matrix
-      shell: python
-      run: |
         import os, json
 
-        clusters = json.loads('${{ steps.get_clusters.outputs.clusters }}')
+        clusters = {}
+        for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
+            dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
+            clusters[app] = dirs
+
+        print(clusters)
+
         matrix = []
         for app, cluster_list in clusters.items():
             for cluster in cluster_list:
                 matrix.append({"app": app, "cluster": cluster})
 
         print(json.dumps(matrix, indent=2))
+
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
+            fd.write(f'clusters={json.dumps(clusters)}\n')
             fd.write(f'matrix={json.dumps(matrix)}\n')
 
     - name: print
       run: |
         echo "${{ steps.get_clusters.outputs.clusters }}"
-        echo "${{ steps.build_matrix.outputs.matrix }}"
+        echo "${{ steps.get_clusters.outputs.matrix }}"
