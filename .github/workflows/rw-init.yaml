@@ -41,10 +41,12 @@ jobs:
       id: set_stage
       run: |
         if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          echo "stage=prod" >> $GITHUB_OUTPUT
+          echo "stage=prod"
         else
-          echo "stage=test" >> $GITHUB_OUTPUT
+          echo "stage=test"
         fi
+
+        echo "stage=$stage" >> $GITHUB_OUTPUT
 
     - name: Get Apps Modified
       id: get_apps_modified
