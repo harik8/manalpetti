@@ -27,15 +27,18 @@ jobs:
   CD:
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       max-parallel: 2 
       matrix:
         include: ${{ fromJson(inputs.clusters) }}
+        exclude:
+          cluster: eks
+    runs-on: ${{ matrix.cluster }}
     concurrency:
       group: cd-${{ matrix.cluster }}-${{ matrix.app }}
       cancel-in-progress: true
-    runs-on: ${{ matrix.cluster }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
