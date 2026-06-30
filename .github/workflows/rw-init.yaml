@@ -65,10 +65,15 @@ jobs:
       shell: python
       env:
         PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        STAGE: ${{ steps.set_stage.outputs.stage }}
       run: |
         import os, json
 
         labels = os.environ.get('PR_LABELS', '').split(',')
+        stage = os.environ.get('STAGE', '')
+
+        print (stage) 
+
         skip_clusters = [l.replace('cd-skipcluster:', '').strip() for l in labels if l.startswith('cd-skipcluster:')]
         print(f'Skipping clusters: {skip_clusters}')
 
