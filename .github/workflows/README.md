@@ -33,6 +33,8 @@ These workflows are built as modular, reusable components that can be called fro
 
 ✅ **Smart Tagging** - Automatic version detection from Dockerfile or git
 
+✅ **Multi-Cluster Support** - Deploy each app to multiple clusters in parallel, driven by per-app Helm values
+
 ---
 
 ## Workflows
@@ -55,6 +57,7 @@ These workflows are built as modular, reusable components that can be called fro
 | Output | Description | Example |
 |--------|-------------|---------|
 | `apps_modified` | JSON array of modified app paths | `["apps/whoami", "apps/api"]` |
+| `clusters` | Flat list of `{app, cluster}` pairs for the CD matrix | `[{"app":"apps/whoami","cluster":"wsl"}]` |
 
 **How it works:**
 1. Fetches last 2 commits
@@ -62,6 +65,8 @@ These workflows are built as modular, reusable components that can be called fro
 3. Filters by `apps_path` pattern
 4. Extracts unique directories based on `apps_path_depth`
 5. Returns JSON array of modified apps
+6. Discovers clusters per app by scanning `{app}/.helm/` for subdirectories
+7. Builds a flat `clusters` list of `{app, cluster}` pairs for the CD matrix
 
 **Depth Examples:**
 - `apps_path_depth: 2` → Matches `apps/whoami` from `apps/whoami/src/main.go`
@@ -168,9 +173,9 @@ jobs:
 
 | Input | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `appsJSON array of apps to deploy |
-| `apps_path_depth` | string | No | `2` | Directory depth for app name |
-| `stage` | string | No | `wsl` | Deployment environment |
+| `apps_modified` | string | No | - | JSON array of app paths to deploy |
+| `apps_path_depth` | string | No | `2` | Directory depth for app name extraction |
+| `clusters` | string | Yes | - | Flat list of `{app, cluster}` pairs from INIT |
 | `tag` | string | Yes | - | Docker image tag to deploy |
 
 **Secrets:**
@@ -203,10 +208,44 @@ App-Specific Values
   ↓
 {app}/.helm/values.yaml
   ↓
-Environment-Specific Values (highest priority)
+Cluster-Specific Values (highest priority)
   ↓
-{app}/.helm/{stage}/values.yaml
+{app}/.helm/{cluster}/values.yaml
 ```
+
+**Multi-Cluster Support:**
+
+Clusters are discovered automatically at runtime by scanning each app's `.helm/` directory for subdirectories. Each subdirectory name is treated as a cluster identifier.
+
+```
+apps/
+  whoami/
+    .helm/
+      values.yaml          # shared values
+      wsl/
+        values.yaml        # wsl-specific overrides
+      self-hosted/
+        values.yaml        # self-hosted-specific overrides
+```
+
+The above structure will trigger **two parallel CD jobs** for `whoami` — one per cluster.
+
+> **Requirement:** The GitHub Actions runner must have a label matching the cluster name (e.g. `wsl`, `self-hosted`).
+
+**Runner Security Model:**
+
+The runner should be deployed **inside the target cluster as a Pod** with a `ClusterAdmin` RoleBinding. This is the recommended approach for two reasons:
+
+- The runner inherits in-cluster credentials via the Pod's service account — no kubeconfig file to manage or rotate
+- Keeping credentials outside the cluster (e.g. a kubeconfig mounted or stored as a secret) increases the attack surface and requires ongoing maintenance
+
+```
+Cluster
+  └── github-actions namespace
+        └── runner Pod  ──(ClusterAdmin RoleBinding)──► kubectl / helm access
+```
+
+The runner Pod label (e.g. `wsl`, `self-hosted`) must match the cluster subdirectory name under `.helm/` so the correct job is routed to the correct cluster.
 
 **Skip Deployment:**
 Add `ci-skippush` label to PR to skip both push and deployment.
@@ -219,8 +258,8 @@ jobs:
     uses: ./.github/workflows/rw-cd.yaml
     with:
       apps_modified: ${{ needs.init.outputs.apps_modified }}
+      clusters: ${{ needs.init.outputs.clusters }}
       tag: ${{ needs.ci.outputs.tag }}
-      stage: production
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
