@@ -20,6 +20,9 @@ on:
       clusters:
         description: Flat list of {app, cluster} pairs for the CD matrix
         value: ${{ jobs.INIT.outputs.clusters }}
+      stage:
+        description: The deployment stage (prod, test, dev)
+        value: ${{ jobs.INIT.outputs.stage }}
 
 jobs:
   INIT:
