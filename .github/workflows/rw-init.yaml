@@ -52,7 +52,7 @@ jobs:
       run: |
         import os, json
 
-        labels = "${{ join(github.event.pull_request.labels.*.name, ",") }}"
+        labels = ${{ join(github.event.pull_request.labels.*.name, ",") }}.split(',')
 
         print(labels)
 
