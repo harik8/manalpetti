@@ -1,4 +1,4 @@
-name: CD
+name: DEPLOY
 
 on:
   workflow_call:
@@ -29,7 +29,8 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     timeout-minutes: 5
     strategy:
-      fail-fast: false 
+      fail-fast: false
+      max-parallel: 2 
       matrix:
         include: ${{ fromJson(inputs.clusters) }}
     runs-on: ${{ matrix.cluster }}
