@@ -62,5 +62,5 @@ jobs:
           dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
           clusters[app] = dirs
           print(clusters)
-        echo "$clusters"
-        echo "clusters=$clusters" >> $GITHUB_OUTPUT
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
+          fd.write(f'clusters={json.dumps(clusters)}\n')
