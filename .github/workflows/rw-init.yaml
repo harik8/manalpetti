@@ -65,3 +65,7 @@ jobs:
           print(clusters)
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
           fd.write(f'clusters={json.dumps(clusters)}\n')
+
+    - name: print
+      run: |
+        echo "${{ steps.get_clusters.output.clusters }}"
