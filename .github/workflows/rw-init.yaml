@@ -44,17 +44,7 @@ jobs:
           | sort -u \
           | jq -R . | jq -s -c .)
         echo "$apps_modified"
-
         echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
-
-    # - name: Set up Python
-    #   # This is the version of the action for setting up Python, not the Python version.
-    #   uses: actions/setup-python@v5
-    #   with:
-    #       # Semantic version range syntax or exact version of a Python version
-    #     python-version: '3.x'
-    #       # Optional - x64 or x86 architecture, defaults to x64
-    #     architecture: 'x64'
     
     - name: Get Clusters
       id: get_clusters
@@ -78,7 +68,3 @@ jobs:
 
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
             fd.write(f'clusters={json.dumps(clusters)}\n')
-
-    - name: print
-      run: |
-        echo "${{ steps.get_clusters.outputs.clusters }}"

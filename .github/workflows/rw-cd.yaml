@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        include: ${{ fromJson(inputs.clusters) }}
+        cluster: ${{ fromJson(inputs.clusters) }}
     runs-on: ${{ matrix.cluster }}
     steps:
     - name: Git clone the repository
