@@ -44,6 +44,7 @@ jobs:
           echo "stage=prod"
         else
           echo "stage=test"
+        fi
 
         echo "stage=$stage" >> $GITHUB_OUTPUT
 
