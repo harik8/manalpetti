@@ -33,7 +33,7 @@ jobs:
   #   steps:
   CD:
     # runs-on: ${{ inputs.stage }}
-    runs-on: self-hosted
+    # runs-on: self-hosted
     if: >
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
