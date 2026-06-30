@@ -54,6 +54,8 @@ jobs:
       run: |
         import os, json
 
+        print(os.environ.get('PR_LABELS'))
+        
         labels = os.environ.get('PR_LABELS', '').split(',')
         skip_clusters = [l.replace('cd-skipcluster:', '').strip() for l in labels if l.startswith('cd-skipcluster:')]
         print(f'Skipping clusters: {skip_clusters}')
