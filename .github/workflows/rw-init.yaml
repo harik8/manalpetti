@@ -20,6 +20,9 @@ on:
       clusters:
         description: Flat list of {app, cluster} pairs for the CD matrix
         value: ${{ jobs.INIT.outputs.clusters }}
+      stage:
+        description: The deployment stage (prod, test, dev)
+        value: ${{ jobs.INIT.outputs.stage }}
 
 jobs:
   INIT:
@@ -27,12 +30,24 @@ jobs:
     outputs:
       apps_modified: ${{ steps.get_apps_modified.outputs.apps_modified }}
       clusters: ${{ steps.get_clusters.outputs.clusters }}
+      stage: ${{ steps.set_stage.outputs.stage }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v7
       with:
         fetch-depth: 2
+
+    - name: Set Stage
+      id: set_stage
+      run: |
+        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          stage=prod
+        else
+          stage=test
+        fi
+
+        echo "stage=$stage" >> $GITHUB_OUTPUT
 
     - name: Get Apps Modified
       id: get_apps_modified
@@ -49,21 +64,34 @@ jobs:
     - name: Get Clusters
       id: get_clusters
       shell: python
+      env:
+        APPS_MODIFIED: ${{ steps.get_apps_modified.outputs.apps_modified }}
+        PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        STAGE: ${{ steps.set_stage.outputs.stage }}
       run: |
         import os, json
 
-        clusters_map = {}
-        for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
-            dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
-            clusters_map[app] = dirs
+        apps_modified = json.loads(os.environ.get('APPS_MODIFIED', '[]'))
+        labels = os.environ.get('PR_LABELS', '').split(',')
+        stage = os.environ.get('STAGE', '')
 
+        skip_clusters = [l.replace('cd-skipcluster:', '').strip() for l in labels if l.startswith('cd-skipcluster:')]
+        print(f'Skipping clusters: {skip_clusters}')
+
+        clusters_map = {}
+        for app in apps_modified:
+            helm_dir = os.path.join(app, ".helm", stage)
+            files = [file.replace('.yaml','') for file in os.listdir(helm_dir) if not os.path.isdir(os.path.join(helm_dir, file))]
+            clusters_map[app] = files
         print(clusters_map)
 
         clusters = []
         for app, cluster_list in clusters_map.items():
             for cluster in cluster_list:
+                if cluster in skip_clusters:
+                    print(f'Skipping cluster {cluster} for {app}')
+                    continue
                 clusters.append({"app": app, "cluster": cluster})
-
         print(json.dumps(clusters, indent=2))
 
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:

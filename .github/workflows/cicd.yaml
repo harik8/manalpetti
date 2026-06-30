@@ -38,6 +38,7 @@ jobs:
     with:
       apps_modified: ${{ needs.INIT.outputs.apps_modified }}
       clusters: ${{ needs.INIT.outputs.clusters }}
+      stage: ${{ needs.INIT.outputs.stage }}
       tag: ${{ needs.CI.outputs.tag }}
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

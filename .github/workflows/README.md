@@ -58,15 +58,42 @@ These workflows are built as modular, reusable components that can be called fro
 |--------|-------------|---------|
 | `apps_modified` | JSON array of modified app paths | `["apps/whoami", "apps/api"]` |
 | `clusters` | Flat list of `{app, cluster}` pairs for the CD matrix | `[{"app":"apps/whoami","cluster":"wsl"}]` |
+| `stage` | Deployment stage derived from the branch | `prod` or `test` |
 
 **How it works:**
 1. Fetches last 2 commits
-2. Runs `git diff` to find changed files
-3. Filters by `apps_path` pattern
-4. Extracts unique directories based on `apps_path_depth`
-5. Returns JSON array of modified apps
-6. Discovers clusters per app by scanning `{app}/.helm/` for subdirectories
-7. Builds a flat `clusters` list of `{app, cluster}` pairs for the CD matrix
+2. Determines the deployment **stage** based on branch (`main` → `prod`, all others → `test`)
+3. Runs `git diff` to find changed files
+4. Filters by `apps_path` pattern
+5. Extracts unique directories based on `apps_path_depth`
+6. Returns JSON array of modified apps
+7. Discovers clusters per app by scanning `{app}/.helm/{stage}/` for value files
+8. Filters out clusters matching any `cd-skipcluster:<name>` PR labels
+9. Builds a flat `clusters` list of `{app, cluster}` pairs for the CD matrix
+
+**Stage Detection:**
+
+The stage is determined automatically from the target branch:
+
+| Branch | Stage |
+|--------|-------|
+| `main` | `prod` |
+| Any other branch | `test` |
+
+The stage controls which cluster values directory is scanned (e.g., `.helm/prod/` vs `.helm/test/`), enabling environment-specific cluster targeting.
+
+**Cluster Skip (cd-skipcluster):**
+
+You can skip specific clusters during deployment by adding PR labels with the prefix `cd-skipcluster:`:
+
+| PR Label | Effect |
+|----------|--------|
+| `cd-skipcluster:<cluster-name>` | Skips deployment to the matching cluster |
+
+Multiple labels can be applied simultaneously to skip multiple clusters. This is useful for:
+- Gradually rolling out changes to one cluster at a time
+- Excluding a cluster that is under maintenance
+- Testing deployments in a single cluster before broadening
 
 **Depth Examples:**
 - `apps_path_depth: 2` → Matches `apps/whoami` from `apps/whoami/src/main.go`
