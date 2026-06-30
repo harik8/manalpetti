@@ -24,7 +24,7 @@ jobs:
     with:
       apps_path: 'apps'
 
-  CI:
+  BUILD:
     needs: INIT
     uses: ./.github/workflows/rw-ci.yaml
     with:
@@ -32,7 +32,7 @@ jobs:
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  CD:
+  DEPLOY:
     needs: [INIT, CI]
     uses: ./.github/workflows/rw-cd.yaml
     with:
