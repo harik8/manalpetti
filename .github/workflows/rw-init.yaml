@@ -69,8 +69,8 @@ jobs:
 
         clusters_map = {}
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
-            files = [file for file in os.listdir(app + "/.helm/" + "${{ steps.set_stage.outputs.stage }}") if not os.path.isdir(app + "/.helm/" + "${{ steps.set_stage.outputs.stage }}" + "/" + file)]
-            clusters_map[app] = files.replace('.yaml','')  
+            files = [file.replace('.yaml','') for file in os.listdir(app + "/.helm/" + "${{ steps.set_stage.outputs.stage }}") if not os.path.isdir(app + "/.helm/" + "${{ steps.set_stage.outputs.stage }}" + "/" + file)]
+            clusters_map[app] = files
         print(clusters_map)
 
         clusters = []
