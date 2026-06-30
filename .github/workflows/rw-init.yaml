@@ -67,9 +67,9 @@ jobs:
         clusters = []
         for app, cluster_list in clusters_map.items():
             for cluster in cluster_list:
-               if cluster in skip_clusters:
-                   print(f'Skipping cluster {cluster} for {app}')
-                   continue
+                if cluster in skip_clusters:
+                    print(f'Skipping cluster {cluster} for {app}')
+                    continue
                 clusters.append({"app": app, "cluster": cluster})
         print(json.dumps(clusters, indent=2))
 
