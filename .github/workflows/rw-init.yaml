@@ -57,7 +57,7 @@ jobs:
           | cut -d'/' -f1-${{ inputs.apps_path_depth }} \
           | grep -E "${{ inputs.apps_path }}" \
           | sort -u \
-          | jq -R . | jq -s .)
+          | jq -R . | jq -s -c .)
         echo "$apps_modified"
         echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
     
