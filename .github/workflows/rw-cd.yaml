@@ -40,8 +40,9 @@ jobs:
       fail-fast: false
       matrix:
         apps: ${{ fromJson(inputs.apps_modified) }}
+        clustersl: ${{ fromJson(inputs.clusters)["${{ matrix.apps }}"] }}
         # runner: ${{ fromJson(inputs.stage) }}
-    # runs-on: ${{ matrix.stage }}
+    runs-on: ${{ matrix.clusterl }}
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v7
