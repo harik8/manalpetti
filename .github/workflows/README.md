@@ -300,8 +300,8 @@ jobs:
     uses: ./.github/workflows/rw-cd.yaml
     with:
       apps_modified: ${{ needs.init.outputs.apps_modified }}
+      clusters: ${{ needs.init.outputs.clusters }}
       tag: ${{ needs.ci.outputs.tag }}
-      stage: wsl
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 ```
@@ -334,6 +334,7 @@ jobs:
     uses: ./.github/workflows/rw-cd.yaml
     with:
       apps_modified: ${{ needs.init.outputs.apps_modified }}
+      clusters: ${{ needs.init.outputs.clusters }}
       tag: ${{ needs.ci.outputs.tag }}
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
