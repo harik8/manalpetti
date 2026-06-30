@@ -79,7 +79,7 @@ jobs:
                 if cluster in skip_clusters:
                     print(f'Skipping cluster {cluster} for {app}')
                     continue
-                clusters.append({"app": app, "cluster": cluster})
+                clusters.append({"app": app, "cluster": cluster.replace('.yaml','')})
         print(json.dumps(clusters, indent=2))
 
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
