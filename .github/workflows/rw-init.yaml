@@ -40,6 +40,7 @@ jobs:
     - name: Set Stage
       id: set_stage
       run: |
+        stage=""
         if [ "${{ github.ref }}" == "refs/heads/main" ]; then
           echo "stage=prod"
         else
@@ -71,7 +72,7 @@ jobs:
 
         labels = os.environ.get('PR_LABELS', '').split(',')
         stage = os.environ.get('STAGE', '')
-        
+
         skip_clusters = [l.replace('cd-skipcluster:', '').strip() for l in labels if l.startswith('cd-skipcluster:')]
         print(f'Skipping clusters: {skip_clusters}')
 
