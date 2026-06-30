@@ -50,7 +50,7 @@ jobs:
       id: get_clusters
       shell: python
       env:
-        PR_LABELS: ${{ join(github.event.pull_request.labels.cd-skip:*.name, ',') }}
+        PR_LABELS: ${{ join(github.event.pull_request.labels.cd-skip*.name, ',') }}
       run: |
         import os, json
 
