@@ -57,6 +57,7 @@ jobs:
       shell: python
       run: |
         import os
+        import json
         clusters = {}
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
           dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
