@@ -37,7 +37,7 @@ jobs:
     uses: ./.github/workflows/rw-cd.yaml
     with:
       apps_modified: ${{ needs.INIT.outputs.apps_modified }}
-      matrix: ${{ needs.INIT.outputs.matrix }}
+      clusters: ${{ needs.INIT.outputs.clusters }}
       tag: feature-multi_cluster_deployment-34371
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

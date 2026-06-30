@@ -15,7 +15,7 @@ on:
         type: string
         description: Stage to deploy
         default: wsl
-      matrix:
+      clusters:
         type: string
         description: Flat list of {app, cluster} pairs for the CD matrix
         required: true
@@ -33,8 +33,9 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
     strategy:
       fail-fast: false
+      
       matrix:
-        include: ${{ fromJson(inputs.matrix) }}
+        include: ${{ fromJson(inputs.clusters) }}
     runs-on: ${{ matrix.cluster }}
     steps:
     - name: Git clone the repository

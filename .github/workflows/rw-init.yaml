@@ -17,16 +17,16 @@ on:
       apps_modified:
         description: List of applications modified in the last commit
         value: ${{ jobs.INIT.outputs.apps_modified }}
-      matrix:
+      clusters:
         description: Flat list of {app, cluster} pairs for the CD matrix
-        value: ${{ jobs.INIT.outputs.matrix }}
+        value: ${{ jobs.INIT.outputs.clusters }}
 
 jobs:
   INIT:
     runs-on: ubuntu-slim
     outputs:
       apps_modified: ${{ steps.get_apps_modified.outputs.apps_modified }}
-      matrix: ${{ steps.get_clusters.outputs.matrix }}
+      clusters: ${{ steps.get_clusters.outputs.clusters }}
 
     steps:
     - name: Checkout repository
@@ -62,25 +62,23 @@ jobs:
       run: |
         import os, json
 
-        clusters = {}
+        clusters_map = {}
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
             dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
-            clusters[app] = dirs
+            clusters_map[app] = dirs
 
-        print(clusters)
+        print(clusters_map)
 
-        matrix = []
-        for app, cluster_list in clusters.items():
+        clusters = []
+        for app, cluster_list in clusters_map.items():
             for cluster in cluster_list:
-                matrix.append({"app": app, "cluster": cluster})
+                clusters.append({"app": app, "cluster": cluster})
 
-        print(json.dumps(matrix, indent=2))
+        print(json.dumps(clusters, indent=2))
 
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
             fd.write(f'clusters={json.dumps(clusters)}\n')
-            fd.write(f'matrix={json.dumps(matrix)}\n')
 
     - name: print
       run: |
         echo "${{ steps.get_clusters.outputs.clusters }}"
-        echo "${{ steps.get_clusters.outputs.matrix }}"
