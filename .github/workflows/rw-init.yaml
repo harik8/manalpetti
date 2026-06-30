@@ -49,21 +49,28 @@ jobs:
     - name: Get Clusters
       id: get_clusters
       shell: python
+      env:
+        PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
       run: |
         import os, json
+
+        labels = os.environ.get('PR_LABELS', '').split(',')
+        skip_clusters = [l.replace('cd-skipcluster:', '').strip() for l in labels if l.startswith('cd-skipcluster:')]
+        print(f'Skipping clusters: {skip_clusters}')
 
         clusters_map = {}
         for app in ${{ steps.get_apps_modified.outputs.apps_modified }}:
             dirs = [file for file in os.listdir(app + "/.helm") if os.path.isdir(app + "/.helm/" + file)]
-            clusters_map[app] = dirs
-
+            clusters_map[app] = dirs  
         print(clusters_map)
 
         clusters = []
         for app, cluster_list in clusters_map.items():
             for cluster in cluster_list:
+               if cluster in skip_clusters:
+                   print(f'Skipping cluster {cluster} for {app}')
+                   continue
                 clusters.append({"app": app, "cluster": cluster})
-
         print(json.dumps(clusters, indent=2))
 
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
