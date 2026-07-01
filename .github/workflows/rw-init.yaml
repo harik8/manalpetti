@@ -40,33 +40,54 @@ jobs:
 
     - name: Set Stage
       id: set_stage
+      env:
+        GIT_REF: ${{ github.ref }}
       run: |
-        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+        if [ "$GIT_REF" == "refs/heads/main" ]; then
           stage=prod
         else
           stage=test
         fi
 
-        echo "stage=$stage" >> $GITHUB_OUTPUT
+        echo "stage=$stage" >> "$GITHUB_OUTPUT"
 
     - name: Get Apps Modified
       id: get_apps_modified
+      env:
+        APPS_PATH_DEPTH: ${{ inputs.apps_path_depth }}
+        APPS_PATH: ${{ inputs.apps_path }}
       run: |
         apps_modified=$(git diff HEAD HEAD~ --name-only \
           | grep '/' \
-          | cut -d'/' -f1-${{ inputs.apps_path_depth }} \
-          | grep -E "${{ inputs.apps_path }}" \
+          | cut -d'/' -f1-"$APPS_PATH_DEPTH" \
+          | grep -E "$APPS_PATH" \
           | sort -u \
           | jq -R . | jq -s -c .)
         echo "$apps_modified"
-        echo "apps_modified=$apps_modified" >> $GITHUB_OUTPUT
+        echo "apps_modified=$apps_modified" >> "$GITHUB_OUTPUT"
     
+    - name: Get PR Labels
+      id: get_pr_labels
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+      run: |
+        LABELS=$(gh pr view "$PR_NUMBER" \
+          --repo "$REPO" \
+          --json labels \
+          --jq '[.labels[].name] | join(",")')
+
+        echo "PR Number: $PR_NUMBER"
+        echo "Labels: $LABELS"
+        echo "labels=$LABELS" >> "$GITHUB_OUTPUT"
+
     - name: Get Clusters
       id: get_clusters
       shell: python
       env:
         APPS_MODIFIED: ${{ steps.get_apps_modified.outputs.apps_modified }}
-        PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        PR_LABELS: ${{ steps.get_pr_labels.outputs.labels }}
         STAGE: ${{ steps.set_stage.outputs.stage }}
       run: |
         import os, json
