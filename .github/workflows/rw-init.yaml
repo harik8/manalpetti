@@ -72,11 +72,24 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         REPO: ${{ github.repository }}
+        COMMIT_SHA: ${{ github.sha }}
       run: |
-        LABELS=$(gh pr view "$PR_NUMBER" \
-          --repo "$REPO" \
-          --json labels \
-          --jq '[.labels[].name] | join(",")')
+        if [ -z "$PR_NUMBER" ]; then
+          PR_NUMBER=$(gh pr list \
+            --repo "$REPO" \
+            --search "$COMMIT_SHA" \
+            --state merged \
+            --json number \
+            --jq '.[0].number')
+        fi
+
+        LABELS=""
+        if [ -n "$PR_NUMBER" ]; then
+          LABELS=$(gh pr view "$PR_NUMBER" \
+            --repo "$REPO" \
+            --json labels \
+            --jq '[.labels[].name] | join(",")')
+        fi
 
         echo "PR Number: $PR_NUMBER"
         echo "Labels: $LABELS"
