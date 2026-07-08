@@ -84,3 +84,5 @@ env:
     value: harik8/manalpetti
   - name: PAT
     value: ""
+  - name: LABELS
+    value: wsl
