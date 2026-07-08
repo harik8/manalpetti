@@ -31,7 +31,7 @@ helm repo update
 
 cleanup() {
   echo "Removing runner..."
-  ./config.sh remove --unattended --token "$RUNNER_TOKEN" --label "$LABELS"
+  ./config.sh remove --unattended --token "$RUNNER_TOKEN" --labels "$LABELS"
 }
 
 trap 'cleanup; exit 130' INT
