@@ -113,19 +113,26 @@ jobs:
         print(f'Skipping clusters: {skip_clusters}')
 
         clusters_map = {}
-        for app in apps_modified:
+        try:
+          for app in apps_modified:
             helm_dir = os.path.join(app, ".helm", stage)
             files = [file.replace('.yaml','') for file in os.listdir(helm_dir) if not os.path.isdir(os.path.join(helm_dir, file))]
             clusters_map[app] = files
-        print(clusters_map)
+            print(clusters_map)
+        except Exception as e:
+          print(f"Error occurred: {e}")
 
         clusters = []
-        for app, cluster_list in clusters_map.items():
+        try:
+          for app, cluster_list in clusters_map.items():
             for cluster in cluster_list:
-                if cluster in skip_clusters:
-                    print(f'Skipping cluster {cluster} for {app}')
-                    continue
-                clusters.append({"app": app, "cluster": cluster})
+              if cluster in skip_clusters:
+                print(f'Skipping cluster {cluster} for {app}')
+                continue
+            clusters.append({"app": app, "cluster": cluster})
+        except Exception as e:
+          print(f"Error occurred: {e}")
+
         print(json.dumps(clusters, indent=2))
 
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fd:
