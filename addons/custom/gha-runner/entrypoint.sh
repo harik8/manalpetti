@@ -18,6 +18,7 @@ RUNNER_TOKEN=$(echo $RESPONSE | jq '.["token"]' | tr -d '"')
   --token "$RUNNER_TOKEN" \
   --name "${RUNNER_NAME:-$(hostname)}" \
   --work "_work" \
+  --labels "$LABELS" \
   --replace
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -31,7 +32,7 @@ helm repo update
 
 cleanup() {
   echo "Removing runner..."
-  ./config.sh remove --unattended --token "$RUNNER_TOKEN" --labels "$LABELS"
+  ./config.sh remove --unattended --token "$RUNNER_TOKEN"
 }
 
 trap 'cleanup; exit 130' INT
