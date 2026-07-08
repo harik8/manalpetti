@@ -1,1 +1,6 @@
 ---
+tolerations:
+- effect: NoSchedule
+  key: application
+  operator: Equal
+  value: "true"
