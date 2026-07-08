@@ -78,11 +78,3 @@ canary:
 
 rbac:
   clusterAdmin: true
-
-env:
-  - name: REPO
-    value: harik8/manalpetti
-  - name: PAT
-    value: ""
-  - name: LABELS
-    value: wsl
