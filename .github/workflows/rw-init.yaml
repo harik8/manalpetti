@@ -129,7 +129,7 @@ jobs:
               if cluster in skip_clusters:
                 print(f'Skipping cluster {cluster} for {app}')
                 continue
-            clusters.append({"app": app, "cluster": cluster})
+              clusters.append({"app": app, "cluster": cluster})
         except Exception as e:
           print(f"Error occurred: {e}")
 
