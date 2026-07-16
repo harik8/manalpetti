@@ -4,3 +4,16 @@ tolerations:
   key: application
   operator: Equal
   value: "true"
+
+ingress:
+  enabled: true
+  className: public
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: whoami.hariprasad.dev
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []

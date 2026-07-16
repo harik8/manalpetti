@@ -1,0 +1,8 @@
+---
+argo-rollouts:
+  controller:
+    tolerations:
+    - effect: NoSchedule
+      key: core-addons
+      operator: Equal
+      value: "true"
