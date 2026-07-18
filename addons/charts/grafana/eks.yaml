@@ -1,6 +1,6 @@
 ---
 tolerations:
 - effect: NoSchedule
-  key: application
+  key: core-addons
   operator: Equal
   value: "true"

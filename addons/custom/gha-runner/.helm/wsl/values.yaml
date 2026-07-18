@@ -6,4 +6,4 @@ env:
   - name: PAT
     value: ""
   - name: LABELS
-    value: eks
+    value: wsl

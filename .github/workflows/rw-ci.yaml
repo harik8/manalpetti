@@ -105,7 +105,7 @@ jobs:
         !contains(github.event.pull_request.labels.*.name, 'ci-skippush')
       with:
         context: ${{ steps.set_build_context.outputs.build_context }}
-        platforms: linux/amd64
+        platforms: linux/amd64,linux/arm64
         push: true
         tags:  ${{ vars.DOCKER_USERNAME }}/${{ steps.set_app_name.outputs.app_name }}:${{ steps.set_tag.outputs.tag }}
 

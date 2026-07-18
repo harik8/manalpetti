@@ -1,0 +1,14 @@
+---
+controller:
+  tolerations:
+  - effect: NoSchedule
+    key: ingress-controller
+    operator: Equal
+    value: "true"
+
+crdjob:
+  tolerations:
+  - effect: NoSchedule
+    key: ingress-controller
+    operator: Equal
+    value: "true"
