@@ -14,8 +14,8 @@ spec:
       helm:
         valueFiles:
           - $values/addons/charts/grafana/wsl.yaml
-    - repoURL: git@github.com:harik8/manalpetti.git
-      targetRevision: main
+    - repoURL: https://github.com/harik8/manalpetti
+      targetRevision: feat-argocd
       ref: values
   destination:
     server: https://kubernetes.default.svc
