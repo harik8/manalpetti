@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/harik8/manalpetti
     targetRevision: main
-    path: addons/argocd/apps
+    path: argocd/apps
   destination:
     server: https://kubernetes.default.svc
     namespace: argo-cd
