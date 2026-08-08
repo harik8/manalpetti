@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/harik8/manalpetti
-    targetRevision: feat-argocd
+    targetRevision: main
     path: addons/argocd/apps
   destination:
     server: https://kubernetes.default.svc

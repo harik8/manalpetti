@@ -1,30 +1,32 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: gha-runner
-  namespace: argo-cd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: git@github.com:harik8/manalpetti.git
-    targetRevision: main
-    path: addons/custom/gha-runner/.helm
-    helm:
-      valueFiles:
-        - values.yaml
-        - wsl/values.yaml
-      # PAT must be pre-provisioned in the cluster as a secret.
-      # Create it once manually:
-      #   kubectl create secret generic gha-runner-pat \
-      #     --from-literal=PAT=<your-token> -n gha-runner
-      # Then reference it via an external secrets operator or set it
-      # directly in wsl/values.yaml (without committing the value).
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: gha-runner
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
-    # No automated sync - image tag and PAT are managed outside of Git
+---
+# --ToDo: Will be moved to ArgoCD properly once secrets management is in place.
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: gha-runner
+#   namespace: argo-cd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: default
+#   source:
+#     repoURL: https://github.com/harik8/manalpetti
+#     targetRevision: main
+#     path: addons/custom/gha-runner/.helm
+#     helm:
+#       valueFiles:
+#         - values.yaml
+#         - wsl/values.yaml
+#       # PAT must be pre-provisioned in the cluster as a secret.
+#       # Create it once manually:
+#       #   kubectl create secret generic gha-runner-pat \
+#       #     --from-literal=PAT=<your-token> -n gha-runner
+#       # Then reference it via an external secrets operator or set it
+#       # directly in wsl/values.yaml (without committing the value).
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: gha-runner
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNamespace=true
+#     # No automated sync - image tag and PAT are managed outside of Git
