@@ -15,7 +15,7 @@ spec:
         valueFiles:
           - $values/addons/charts/cnpg/wsl.yaml
     - repoURL: https://github.com/harik8/manalpetti
-      targetRevision: feat-argocd
+      targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
