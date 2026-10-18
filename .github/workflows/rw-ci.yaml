@@ -86,7 +86,7 @@ jobs:
         echo "app_name=$app_name" >> $GITHUB_OUTPUT
 
     - name: Hadolint
-      uses: hadolint/hadolint-action@v3.4.0
+      uses: hadolint/hadolint-action@v3.5.0
       with:
         dockerfile: ${{ steps.set_build_context.outputs.build_context }}/Dockerfile
         no-fail: true
